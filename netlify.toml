@@ -1,0 +1,12 @@
+[build]
+  command = "node index.js"
+  functions = "functions"
+
+[build.environment]
+  NODE_ENV = "production"
+
+[build.environment]
+  DB_HOST = "localhost"
+  DB_USER = "root"
+  DB_PASSWORD = ""
+  DB_NAME = "db_edom"
