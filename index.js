@@ -12,6 +12,7 @@ const registerRoutes = require('./src/routes/router-register');
 const appRoutes = require('./src/routes/router-app');
 
 // Configurasi dan gunakan library
+app.use(express.static('public'));
 app.use(bodyParser.urlencoded({ extended: false }))
 app.use(bodyParser.json())
 
