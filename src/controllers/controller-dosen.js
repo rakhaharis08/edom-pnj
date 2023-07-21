@@ -132,7 +132,7 @@ function queryPromise(connection, sql) {
 
 function generateURLWithToken(semester_year) {
   const token = jwt.sign({ semester_year }, secretKey);
-  return `https://beautiful-pink-scarab.cyclic.appdosen_semester?token=${token}`;
+  return `https://beautiful-pink-scarab.cyclic.app/dosen_semester?token=${token}`;
 }
 
 // ... (rest of the code)

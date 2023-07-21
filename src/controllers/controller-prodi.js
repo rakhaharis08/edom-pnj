@@ -25,7 +25,7 @@ module.exports = {
       const prodiResults = await queryPromise(connection, `SELECT prodi_name, jurusan_name FROM table_prodi JOIN table_jurusan ON table_prodi.prodi_jurusan = table_jurusan.jurusan_id`);
 
       res.render("prodi", {
-        url: 'https://beautiful-pink-scarab.cyclic.app',
+        url: 'https://beautiful-pink-scarab.cyclic.app/',
         userName: req.session.username,
         nama: results[0]['user_name'],
         email: results[0]['user_email'],
@@ -54,7 +54,7 @@ module.exports = {
       const jurusanResults = await queryPromise(connection, `SELECT * FROM table_jurusan`);
 
       res.render("addProdi", {
-        url: 'https://beautiful-pink-scarab.cyclic.app',
+        url: 'https://beautiful-pink-scarab.cyclic.app/',
         userName: req.session.username,
         nama: results[0]['user_name'],
         email: results[0]['user_email'],

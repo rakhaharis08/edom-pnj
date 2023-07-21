@@ -19,7 +19,7 @@ module.exports ={
             , function (error, results) {
                 if(error) throw error;
                 res.render("admin",{
-                    url: 'https://beautiful-pink-scarab.cyclic.app',
+                    url: 'https://beautiful-pink-scarab.cyclic.app/',
                     userName: req.session.username,
                     nama: results[0]['user_name'],
                     email: results[0]['user_email']

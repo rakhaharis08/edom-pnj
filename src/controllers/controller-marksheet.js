@@ -25,7 +25,7 @@ module.exports ={
           const semesterResults = await queryPromise(connection, `SELECT * from table_semester`);
     
           res.render("marksheet", {
-            url: 'https://beautiful-pink-scarab.cyclic.app',
+            url: 'https://beautiful-pink-scarab.cyclic.app/',
             userName: req.session.username,
             userid : id,
             nama: results[0]['user_name'],
@@ -112,7 +112,7 @@ module.exports ={
           const results = await queryPromise(connection, `SELECT * FROM table_user WHERE user_id = '${id}'`);
     
           res.render("bukti-edom", {
-            url: 'https://beautiful-pink-scarab.cyclic.app',
+            url: 'https://beautiful-pink-scarab.cyclic.app/',
             userName: req.session.username,
             userid : id,
             nama: results[0]['user_name'],

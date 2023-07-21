@@ -23,7 +23,7 @@ module.exports = {
       const results = await queryPromise(connection, `SELECT * FROM table_kelas`);
 
       res.render("register", {
-        url: 'https://beautiful-pink-scarab.cyclic.app',
+        url: 'https://beautiful-pink-scarab.cyclic.app/',
         userName: req.session.username,
         kelas_id: results,
         kelas_name: results
@@ -37,7 +37,7 @@ module.exports = {
 
   formRegisterStruktural(req, res) {
     res.render("register-struktural", {
-      url: 'https://beautiful-pink-scarab.cyclic.app',
+      url: 'https://beautiful-pink-scarab.cyclic.app/',
       colorFlash: req.flash('color'),
       statusFlash: req.flash('status'),
       pesanFlash: req.flash('message'),

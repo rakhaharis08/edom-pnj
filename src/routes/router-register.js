@@ -5,10 +5,10 @@ const registerController = require('../controllers').register;
 // Definisikan middleware verify.js
 const verifyUser = require('../configs/verify');
 
-// Rute 'https://beautiful-pink-scarab.cyclic.appregister/' digunakan untuk menampilkan form register
+// Rute 'https://beautiful-pink-scarab.cyclic.app/register/' digunakan untuk menampilkan form register
 router.get('/', verifyUser.isLogout, registerController.formRegister);
 router.get('/register-struktural', verifyUser.isLogout, registerController.formRegisterStruktural);
-// Rute 'https://beautiful-pink-scarab.cyclic.appregister/save' digunakan untuk menyimpan data yang diinput user saat register
+// Rute 'https://beautiful-pink-scarab.cyclic.app/register/save' digunakan untuk menyimpan data yang diinput user saat register
 router.post('/save', verifyUser.isLogout, registerController.saveRegister);
 router.post('/save-struktural', verifyUser.isLogout, registerController.saveRegisterStruktural);
 

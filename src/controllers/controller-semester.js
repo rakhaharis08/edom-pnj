@@ -25,7 +25,7 @@ module.exports = {
       const semesterResults = await queryPromise(connection, `SELECT * from table_semester`);
 
       res.render("semester", {
-        url: 'https://beautiful-pink-scarab.cyclic.app',
+        url: 'https://beautiful-pink-scarab.cyclic.app/',
         userName: req.session.username,
         nama: results[0]['user_name'],
         email: results[0]['user_email'],
@@ -53,7 +53,7 @@ module.exports = {
       const results = await queryPromise(connection, `SELECT * FROM table_user WHERE user_id = '${id}'`);
 
       res.render("addSemester", {
-        url: 'https://beautiful-pink-scarab.cyclic.app',
+        url: 'https://beautiful-pink-scarab.cyclic.app/',
         userName: req.session.username,
         nama: results[0]['user_name'],
         email: results[0]['user_email'],
