@@ -38,10 +38,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
             <a href="/" class="nav-link">Home</a>
           </li>
           <li class="nav-item">
-            <a href="#" class="nav-link">Profile</a>
-          </li>
-          <li class="nav-item">
-            <a href="marksheet.html" class="nav-link">Permohonan Marksheet</a>
+            <a href="marksheet" class="nav-link">Permohonan Marksheet</a>
           </li>
         </ul>
 
@@ -57,6 +54,13 @@ scratch. This page gets rid of all links and provides the needed markup only.
           </div>
         </form>
       </div>
+      <ul class="order-1 order-md-3 navbar-nav navbar-no-expand ml-auto">
+        <li class="nav-item">
+          <!-- Jika user sudah login, arahkan tombol logout ke halaman logout -->
+          <!-- Jika user belum login, arahkan tombol logout ke halaman login -->
+          <a href="login/logout" class="nav-link">Logout</a>
+        </li>
+      </ul>
     </div>
   </nav>
   <!-- /.navbar -->
@@ -72,7 +76,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
           </div><!-- /.col -->
           <div class="col-sm-6">
             <ol class="breadcrumb float-sm-right">
-              <li class="breadcrumb-item active"><a href="#">Home</a></li>
+              <li class="breadcrumb-item active"><a href="#">USER</a></li>
             </ol>
           </div><!-- /.col -->
         </div><!-- /.row -->

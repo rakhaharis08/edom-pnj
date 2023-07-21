@@ -25,7 +25,6 @@ module.exports = {
       });
 
       let semester_year = req.session.semesterYear;
-      let semester_gage = req.session.semesterGage;
 
       const semesterResults = await queryPromise(connection, `SELECT * from table_semester`);
       const results = await queryPromise(connection, `SELECT * FROM table_user where user_id = '${id}'`);
@@ -41,8 +40,7 @@ module.exports = {
           JOIN table_answer ON table_answer.answer_matkul = table_matkul.matkul_id
       WHERE
           table_kaprodi.kaprodi_user = '${id}' and
-          table_answer.answer_semester ='${semester_year}' and
-          table_answer.answer_gage ='${semester_gage}'
+          table_answer.answer_semester ='${semester_year}' 
       GROUP BY
           table_matkul.matkul_name,
           table_kelas.kelas_name`);
@@ -71,7 +69,6 @@ module.exports = {
         chartData: JSON.stringify(chartData), // Mengirim data grafik ke views
         matkul_name: matkulName,
         semester_year: semester_year,
-        semester_gage: semester_gage,
         semester_semester: semesterResults,
         kelas_name: matkulResults.map(result => result.kelas_name),
         rata_rata_jawaban: rataRataJawaban
@@ -90,7 +87,7 @@ module.exports = {
 
       try {
         const decoded = jwt.verify(token, secretKey);
-        const { semester_year, semester_gage } = decoded;
+        const { semester_year } = decoded;
 
         const connection = await new Promise((resolve, reject) => {
           pool.getConnection((err, conn) => {
@@ -116,8 +113,7 @@ module.exports = {
             JOIN table_answer ON table_answer.answer_matkul = table_matkul.matkul_id
         WHERE
             table_kaprodi.kaprodi_user = '${id}' and
-            table_answer.answer_semester ='${semester_year}' and
-            table_answer.answer_gage ='${semester_gage}'
+            table_answer.answer_semester ='${semester_year}'
         GROUP BY
             table_matkul.matkul_name,
             table_kelas.kelas_name`);
@@ -147,7 +143,6 @@ module.exports = {
           matkul_name: matkulName,
           semester_semester: semesterResults,
           semester_year: semester_year,
-          semester_gage: semester_gage,
           kelas_name: matkulResults.map(result => result.kelas_name),
           rata_rata_jawaban: rataRataJawaban
         });
@@ -174,8 +169,8 @@ function queryPromise(connection, sql) {
     });
   });
 }
-function generateURLWithToken(semester_year, semester_gage) {
-  const token = jwt.sign({ semester_year, semester_gage }, secretKey);
+function generateURLWithToken(semester_year) {
+  const token = jwt.sign({ semester_year }, secretKey);
   return `http://localhost:5050/kaprodi_semester?token=${token}`;
 }
 

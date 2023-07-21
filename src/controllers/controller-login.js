@@ -45,12 +45,10 @@ module.exports ={
       
                     if (semesterResults.length > 0) {
                       // Ambil nilai semester_year dan semester_gage dari hasil query
-                      let semesterYear = semesterResults[0].semester_year;
-                      let semesterGage = semesterResults[0].semester_gage;
+                      let semesterYear = semesterResults[0].semester_id;
       
                       // Tambahkan field baru ke dalam sesi
                       req.session.semesterYear = semesterYear;
-                      req.session.semesterGage = semesterGage;
                     }
       
                     // Redirect berdasarkan peran (role) pengguna

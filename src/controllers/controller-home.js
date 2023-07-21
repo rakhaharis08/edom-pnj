@@ -11,7 +11,6 @@ module.exports ={
     home(req,res){
         let id = req.session.userid
         let semester_year = req.session.semesterYear
-        let semester_gage = req.session.semesterGage
 
         pool.getConnection(function(err, connection) {
             if (err) throw err;
@@ -22,7 +21,7 @@ module.exports ={
                 matkul_name,
                 matkul_id,
                 kelas_name,
-                CASE WHEN table_answer.answer_semester = '${semester_year}' AND table_answer.answer_gage = '${semester_gage}'
+                CASE WHEN table_answer.answer_semester = '${semester_year}'
                     THEN COUNT(answer_id)
                     ELSE 0
                 END AS answer_count 
@@ -36,8 +35,7 @@ module.exports ={
                 INNER JOIN table_kelas ON table_user.user_kelas = table_kelas.kelas_id
             WHERE 
                 table_user.user_id = '${id}' AND
-                table_kbm.kbm_semester = '${semester_year}' AND
-                table_kbm.kbm_gage = '${semester_gage}' 
+                table_kbm.kbm_semester = '${semester_year}'
             GROUP BY 
                 dosen_id, 
                 dosen_name,

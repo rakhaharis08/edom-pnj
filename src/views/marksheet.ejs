@@ -1,8 +1,4 @@
 <!DOCTYPE html>
-<!--
-This is a starter template page. Use this page to start your new project from
-scratch. This page gets rid of all links and provides the needed markup only.
--->
 <html lang="en">
 <head>
   <meta charset="utf-8">
@@ -13,12 +9,15 @@ scratch. This page gets rid of all links and provides the needed markup only.
   <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700&display=fallback">
   <!-- Font Awesome Icons -->
   <link rel="stylesheet" href="/plugins/fontawesome-free/css/all.min.css">
+  <!-- Bootstrap CSS -->
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
   <!-- Theme style -->
   <link rel="stylesheet" href="/dist/css/adminlte.min.css">
 </head>
 <body class="hold-transition layout-top-nav">
 <div class="wrapper">
 
+  <!-- Navbar -->
   <!-- Navbar -->
   <nav class="main-header navbar navbar-expand-md navbar-light navbar-white">
     <div class="container">
@@ -36,6 +35,9 @@ scratch. This page gets rid of all links and provides the needed markup only.
         <ul class="navbar-nav">
           <li class="nav-item">
             <a href="/" class="nav-link">Home</a>
+          </li>
+          <li class="nav-item">
+            <a href="marksheet" class="nav-link">Permohonan Marksheet</a>
           </li>
         </ul>
 
@@ -66,71 +68,47 @@ scratch. This page gets rid of all links and provides the needed markup only.
   <div class="content-wrapper">
     <!-- Content Header (Page header) -->
     <div class="content-header">
-      <div class="container">
-        <div class="row mb-2">
-          <div class="col-sm-6">
-            <h1 class="m-0"> EDOM PNJ <small>v.1.0</small></h1>
-          </div><!-- /.col -->
-          <div class="col-sm-6">
-            <ol class="breadcrumb float-sm-right">
-              <li class="breadcrumb-item active"><a href="#">Home</a></li>
-            </ol>
-          </div><!-- /.col -->
-        </div><!-- /.row -->
-      </div><!-- /.container-fluid -->
+      <!-- Content header content goes here -->
+      <!-- ... -->
     </div>
     <!-- /.content-header -->
 
     <!-- Main content -->
     <div class="content">
       <div class="container">
+        <!-- Your content goes here -->
         <div class="row">
-
-          <div class="col-12">
-            <div class="card">
+          <div class="col-md-12">
+            <!-- general form elements -->
+            <div class="card card-primary">
               <div class="card-header">
-                <h3 class="card-title">Program Studi</h3>
+                <h3 class="card-title">Permohonan Marksheet</h3>
               </div>
               <!-- /.card-header -->
-              <div class="card-body">
-              <table id="example2" class="table table-bordered table-hover">
-                <thead>
-                  <tr>
-                    <th>Program Studi</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  <form action="<%= url %>add-prodi/saveprodi" method="POST">
-                    <tr>
-                      <td>
-                        <input type="text" name="prodi" placeholder="Masukkan Nama Program Studi" class="form-control">
-                      </td>
-                    </tr>
-                    <tr>
-                      <td>
-                        <Select name="jurusan" class="form-control">
-                          <% for (let i = 0; i < jurusan_jurusan.length; i++) { %>
-                            <option value="<%= jurusan_jurusan[i].jurusan_id %>"><%= jurusan_jurusan[i].jurusan_name.toUpperCase()  %></option>
-                          <% } %>
-                        </Select>
-                      </td>
-                    </tr>
-                    <tr>
-                      <td>
-                        <input type="submit" class="form-control btn btn-primary">
-                      </td>
-                    </tr>
-                  </form>
-                </tbody>
-              </table>
-              </div>
-              <!-- /.card-body -->
+              <!-- form start -->
+              <form action="<%= url %>marksheet/add-marksheet" method="POST">
+                <div class="card-body">
+                  <div class="form-group">
+                    <div class="mb-3">
+                      <label for="exampleInputEmail1">Tahun Ajaran</label>
+                      <select name="semester" class="form-control">
+                        <% for (let i = 0; i < semester_semester.length; i++) { %>
+                          <% let semesterType = semester_semester[i].semester_gage == 1 ? 'Ganjil' : 'Genap'; %>
+                          <option value="<%= semester_semester[i].semester_id %>"><%= semester_semester[i].semester_year.toUpperCase() %> <%= semesterType %></option>
+                        <% } %>
+                      </select>
+                    </div>
+                  </div>
+                </div>
+                <div class="card-footer">
+                  <button type="submit" class="btn btn-primary">Ajukan</button>
+                </div>
+              </form>
             </div>
-            <!-- /.card -->
           </div>
         </div>
         <!-- /.row -->
-      </div><!-- /.container-fluid -->
+      </div><!-- /.container -->
     </div>
     <!-- /.content -->
   </div>
@@ -157,10 +135,9 @@ scratch. This page gets rid of all links and provides the needed markup only.
 <!-- REQUIRED SCRIPTS -->
 
 <!-- jQuery -->
-<!-- jQuery -->
-<script src="/plugins/jquery/jquery.min.js"></script>
+<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
 <!-- Bootstrap 4 -->
-<script src="/plugins/bootstrap/js/bootstrap.bundle.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.bundle.min.js"></script>
 <!-- ChartJS -->
 <script src="/plugins/chart.js/Chart.min.js"></script>
 <!-- AdminLTE App -->

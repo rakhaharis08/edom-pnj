@@ -22,7 +22,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
   <!-- Navbar -->
   <nav class="main-header navbar navbar-expand-md navbar-light navbar-white">
     <div class="container">
-      <a href="/" class="navbar-brand">
+      <a href="admin" class="navbar-brand">
         <img src="/dist/img/edomlogo.png" alt="AdminLTE Logo" class="brand-image img-circle elevation-3" style="opacity: .8">
         <span class="brand-text font-weight-light">EDOM PNJ v.1.0</span>
       </a>
@@ -37,8 +37,11 @@ scratch. This page gets rid of all links and provides the needed markup only.
           <li class="nav-item">
             <a href="/admin" class="nav-link">Home</a>
           </li>
-          <li class="nav-item active">
+          <li class="nav-item">
             <a href="/auth-register" class="nav-link">Authentikasi Register</a>
+          </li>
+          <li class="nav-item">
+            <a href="/semester" class="nav-link">Manage Semester</a>
           </li>
         </ul>
 
@@ -54,6 +57,13 @@ scratch. This page gets rid of all links and provides the needed markup only.
           </div>
         </form>
       </div>
+      <ul class="order-1 order-md-3 navbar-nav navbar-no-expand ml-auto">
+        <li class="nav-item">
+          <!-- Jika user sudah login, arahkan tombol logout ke halaman logout -->
+          <!-- Jika user belum login, arahkan tombol logout ke halaman login -->
+          <a href="login/logout" class="nav-link">Logout</a>
+        </li>
+      </ul>
     </div>
   </nav>
   <!-- /.navbar -->
@@ -69,7 +79,8 @@ scratch. This page gets rid of all links and provides the needed markup only.
           </div><!-- /.col -->
           <div class="col-sm-6">
             <ol class="breadcrumb float-sm-right">
-              <li class="breadcrumb-item active"><a href="#">Home</a></li>
+              <li class="breadcrumb-item active"><a href="admin">ADMIN</a></li>
+              <li class="breadcrumb-item active"><a href="#">AUTH-USER</a></li>
             </ol>
           </div><!-- /.col -->
         </div><!-- /.row -->

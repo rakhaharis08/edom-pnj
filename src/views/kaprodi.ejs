@@ -22,7 +22,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
     <!-- Navbar -->
     <nav class="main-header navbar navbar-expand-md navbar-light navbar-white">
       <div class="container">
-        <a href="home.html" class="navbar-brand">
+        <a href="kaprodi" class="navbar-brand">
           <img src="../../dist/img/edomlogo.png" alt="AdminLTE Logo" class="brand-image img-circle elevation-3" style="opacity: .8">
           <span class="brand-text font-weight-light">EDOM PNJ v.1.0</span>
         </a>
@@ -35,13 +35,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
           <!-- Left navbar links -->
           <ul class="navbar-nav">
             <li class="nav-item">
-              <a href="home.html" class="nav-link">Home</a>
-            </li>
-            <li class="nav-item">
-              <a href="#" class="nav-link">Profile</a>
-            </li>
-            <li class="nav-item">
-              <a href="marksheet.html" class="nav-link">Permohonan Marksheet</a>
+              <a href="kaprodi" class="nav-link">Home</a>
             </li>
           </ul>
 
@@ -57,6 +51,13 @@ scratch. This page gets rid of all links and provides the needed markup only.
             </div>
           </form>
         </div>
+      <ul class="order-1 order-md-3 navbar-nav navbar-no-expand ml-auto">
+        <li class="nav-item">
+          <!-- Jika user sudah login, arahkan tombol logout ke halaman logout -->
+          <!-- Jika user belum login, arahkan tombol logout ke halaman login -->
+          <a href="login/logout" class="nav-link">Logout</a>
+        </li>
+      </ul>
       </div>
     </nav>
     <!-- /.navbar -->
@@ -72,8 +73,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
             </div>
             <div class="col-sm-6">
               <ol class="breadcrumb float-sm-right">
-                <li class="breadcrumb-item"><a href="#">Home</a></li>
-                <li class="breadcrumb-item active">User Profile</li>
+                <li class="breadcrumb-item"><a href="#">KAPRODI</a></li>
               </ol>
             </div>
           </div>
@@ -127,9 +127,9 @@ scratch. This page gets rid of all links and provides the needed markup only.
 						<strong><i class="far fa-file-alt mr-1"></i> Lihat nilai pada semester tertentu</strong><br>
 						<% for (let i = 0; i < semester_semester.length; i++) { %>
 						  <% let semesterType = semester_semester[i].semester_gage == 1 ? 'Ganjil' : 'Genap'; %>
-						  <br><a href="<%= url(semester_semester[i].semester_year, semester_semester[i].semester_gage) %>"><%= semester_semester[i].semester_year %> <%= semesterType %></a><br>
+						  <br><a href="<%= url(semester_semester[i].semester_id )%>"><%= semester_semester[i].semester_year %> <%= semesterType %></a><br>
 						<% } %>
-					  </div>
+					</div>
                 
                 <!-- /.card-body -->
               </div>
@@ -140,11 +140,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
               <div class="card card-primary">
                 <div class="card-header">
                   <h3 class="card-title">Hasil Penilaian Rata-Rata per Dosen di Prodi Teknik Informatika  <%= semester_year %> 
-                    <% if (semester_gage == 1) { %>
-                      Ganjil
-                    <% } else if (semester_gage == 2) { %>
-                      Genap
-                    <% } %></h3>
+                  <h3>
 
                   <div class="card-tools">
                     <button type="button" class="btn btn-tool" data-card-widget="collapse">

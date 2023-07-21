@@ -73,7 +73,9 @@ scratch. This page gets rid of all links and provides the needed markup only.
           </div><!-- /.col -->
           <div class="col-sm-6">
             <ol class="breadcrumb float-sm-right">
-              <li class="breadcrumb-item active"><a href="#">Home</a></li>
+              <li class="breadcrumb-item active"><a href="/">USER</a></li>
+              <li class="breadcrumb-item active"><a href="marksheet">PERMOHONAN-MARKSHEET</a></li>
+              <li class="breadcrumb-item active"><a href="#">QRCODE-MARKSHEET</a></li>
             </ol>
           </div><!-- /.col -->
         </div><!-- /.row -->
@@ -85,52 +87,22 @@ scratch. This page gets rid of all links and provides the needed markup only.
     <div class="content">
       <div class="container">
         <div class="row">
-
-          <div class="col-12">
-            <div class="card">
+          <div class="col-md-12">
+            <div class="card card-primary">
               <div class="card-header">
-                <h3 class="card-title">Program Studi</h3>
+                <h3 class="card-title">Bukti Edom</h3>
               </div>
-              <!-- /.card-header -->
               <div class="card-body">
-              <table id="example2" class="table table-bordered table-hover">
-                <thead>
-                  <tr>
-                    <th>Program Studi</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  <form action="<%= url %>add-prodi/saveprodi" method="POST">
-                    <tr>
-                      <td>
-                        <input type="text" name="prodi" placeholder="Masukkan Nama Program Studi" class="form-control">
-                      </td>
-                    </tr>
-                    <tr>
-                      <td>
-                        <Select name="jurusan" class="form-control">
-                          <% for (let i = 0; i < jurusan_jurusan.length; i++) { %>
-                            <option value="<%= jurusan_jurusan[i].jurusan_id %>"><%= jurusan_jurusan[i].jurusan_name.toUpperCase()  %></option>
-                          <% } %>
-                        </Select>
-                      </td>
-                    </tr>
-                    <tr>
-                      <td>
-                        <input type="submit" class="form-control btn btn-primary">
-                      </td>
-                    </tr>
-                  </form>
-                </tbody>
-              </table>
+                <!-- Div to hold the QR code -->
+                <div id="qrcode"></div>
+    
+                <!-- Button to download the QR code as an image -->
+                <button onclick="downloadQRCode()" class="btn btn-primary mt-3">Download QR Code</button>
               </div>
-              <!-- /.card-body -->
             </div>
-            <!-- /.card -->
           </div>
         </div>
-        <!-- /.row -->
-      </div><!-- /.container-fluid -->
+      </div>
     </div>
     <!-- /.content -->
   </div>
@@ -154,9 +126,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
 </div>
 <!-- ./wrapper -->
 
-<!-- REQUIRED SCRIPTS -->
 
-<!-- jQuery -->
 <!-- jQuery -->
 <script src="/plugins/jquery/jquery.min.js"></script>
 <!-- Bootstrap 4 -->
@@ -167,6 +137,56 @@ scratch. This page gets rid of all links and provides the needed markup only.
 <script src="/dist/js/adminlte.min.js"></script>
 <!-- AdminLTE for demo purposes -->
 <script src="/dist/js/demo.js"></script>
+<!-- qrcode.js -->
+
 <!-- Page specific script -->
+<script src="https://cdn.rawgit.com/davidshimjs/qrcodejs/gh-pages/qrcode.min.js"></script>
+
+<!-- Page specific script -->
+<script>
+  // Function to generate the QR code
+  function generateQRCode() {
+    // Get the link for the QR code
+    var youtubeLink = "https://www.youtube.com";
+
+    // Generate the QR code
+    var qrcode = new QRCode(document.getElementById("qrcode"), {
+      width: 150,
+      height: 150,
+    });
+    qrcode.makeCode(youtubeLink);
+
+    // Show the download button
+    document.getElementById("downloadButton").style.display = "block";
+  }
+
+  // Function to download the QR code as an image
+  function downloadQRCode() {
+    // Get the QR code image as a base64 string
+    var qrCodeImage = document.getElementById("qrcode").querySelector("img");
+    var dataURL = qrCodeImage.src;
+
+    // Create a temporary anchor element to trigger the download
+    var downloadLink = document.createElement("a");
+    downloadLink.href = dataURL;
+    downloadLink.download = "qrcode.jpg";
+
+    // Append the anchor element to the document and trigger the download
+    document.body.appendChild(downloadLink);
+    downloadLink.click();
+
+    // Clean up the temporary anchor element
+    document.body.removeChild(downloadLink);
+  }
+</script>
+
+<!-- ... (your existing code) ... -->
+
+<!-- Call the generateQRCode() function directly after the script -->
+<script>
+  // Call the generateQRCode() function directly
+  generateQRCode();
+</script>
+
 </body>
 </html>

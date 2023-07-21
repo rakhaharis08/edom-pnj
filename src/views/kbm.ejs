@@ -89,38 +89,29 @@ scratch. This page gets rid of all links and provides the needed markup only.
           <div class="col-12">
             <div class="card">
               <div class="card-header">
-                <h3 class="card-title">Program Studi</h3>
+                <h3 class="card-title">KBM</h3>
               </div>
               <!-- /.card-header -->
               <div class="card-body">
+                <a href="add-kbm ">+Tambah</a>
               <table id="example2" class="table table-bordered table-hover">
                 <thead>
                   <tr>
-                    <th>Program Studi</th>
+                    <th>No</th>
+                    <th>Kelas</th>
+                    <th>Dosen</th>
+                    <th>Matkul</th>
                   </tr>
                 </thead>
                 <tbody>
-                  <form action="<%= url %>add-prodi/saveprodi" method="POST">
+                  <% for (let i = 0; i < kbm_kbm.length; i++) { %>
                     <tr>
-                      <td>
-                        <input type="text" name="prodi" placeholder="Masukkan Nama Program Studi" class="form-control">
-                      </td>
+                      <td><%= i + 1 %></td>
+                      <td><%= kbm_kbm[i].kelas_name.toUpperCase()  %></td>
+                      <td><%= kbm_kbm[i].dosen_name.toUpperCase()   %></td>
+                      <td><%= kbm_kbm[i].matkul_name.toUpperCase()   %></td>
                     </tr>
-                    <tr>
-                      <td>
-                        <Select name="jurusan" class="form-control">
-                          <% for (let i = 0; i < jurusan_jurusan.length; i++) { %>
-                            <option value="<%= jurusan_jurusan[i].jurusan_id %>"><%= jurusan_jurusan[i].jurusan_name.toUpperCase()  %></option>
-                          <% } %>
-                        </Select>
-                      </td>
-                    </tr>
-                    <tr>
-                      <td>
-                        <input type="submit" class="form-control btn btn-primary">
-                      </td>
-                    </tr>
-                  </form>
+                  <% } %>
                 </tbody>
               </table>
               </div>

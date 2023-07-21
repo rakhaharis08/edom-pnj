@@ -25,7 +25,6 @@ module.exports = {
       });
 
       let semester_year = req.session.semesterYear;
-      let semester_gage = req.session.semesterGage;
 
       const semesterResults = await queryPromise(connection, `SELECT * from table_semester`);
       const results = await queryPromise(connection, `SELECT * FROM table_user where user_id = '${id}'`);
@@ -40,8 +39,7 @@ module.exports = {
           JOIN table_answer ON table_kajur.kajur_user = '${id}' AND table_kbm.kbm_dosen = table_answer.answer_dosen
           JOIN table_dosen ON table_answer.answer_dosen = table_dosen.dosen_id
         WHERE
-              table_answer.answer_semester ='${semester_year}' and
-              table_answer.answer_gage ='${semester_gage}'
+              table_answer.answer_semester ='${semester_year}'
       GROUP BY
           table_dosen.dosen_name`);
 
@@ -69,7 +67,6 @@ module.exports = {
         chartData: JSON.stringify(chartData),
         semester_semester: semesterResults,
         semester_year: semester_year,
-        semester_gage: semester_gage,
         dosen_name: dosenName,
         rata_rata_jawaban: rataRataJawaban
       });
@@ -87,7 +84,7 @@ module.exports = {
 
       try {
         const decoded = jwt.verify(token, secretKey);
-        const { semester_year, semester_gage } = decoded;
+        const { semester_year} = decoded;
 
         const connection = await new Promise((resolve, reject) => {
           pool.getConnection((err, conn) => {
@@ -112,8 +109,7 @@ module.exports = {
             JOIN table_answer ON table_kajur.kajur_user = '${id}' AND table_kbm.kbm_dosen = table_answer.answer_dosen
             JOIN table_dosen ON table_answer.answer_dosen = table_dosen.dosen_id
           WHERE
-                table_answer.answer_semester ='${semester_year}' and
-                table_answer.answer_gage ='${semester_gage}'
+                table_answer.answer_semester ='${semester_year}'
         GROUP BY
             table_dosen.dosen_name`);
 
@@ -141,7 +137,6 @@ module.exports = {
           chartData: JSON.stringify(chartData),
           semester_semester: semesterResults,
           semester_year: semester_year,
-          semester_gage: semester_gage,
           dosen_name: dosenName,
           rata_rata_jawaban: rataRataJawaban
         });
@@ -169,8 +164,8 @@ function queryPromise(connection, sql) {
   });
 }
 
-function generateURLWithToken(semester_year, semester_gage) {
-  const token = jwt.sign({ semester_year, semester_gage }, secretKey);
+function generateURLWithToken(semester_year) {
+  const token = jwt.sign({ semester_year }, secretKey);
   return `http://localhost:5050/kajur_semester?token=${token}`;
 }
 

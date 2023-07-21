@@ -25,7 +25,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
     <!-- Navbar -->
     <nav class="main-header navbar navbar-expand-md navbar-light navbar-white">
       <div class="container">
-        <a href="/" class="navbar-brand">
+        <a href="admin" class="navbar-brand">
           <img src="/dist/img/edomlogo.png" alt="AdminLTE Logo" class="brand-image img-circle elevation-3"
             style="opacity: .8">
           <span class="brand-text font-weight-light">EDOM PNJ v.1.0</span>
@@ -45,6 +45,9 @@ scratch. This page gets rid of all links and provides the needed markup only.
             <li class="nav-item">
               <a href="/auth-register" class="nav-link">Authentikasi Register</a>
             </li>
+            <li class="nav-item">
+              <a href="/semester" class="nav-link">Manage Semester</a>
+            </li>
           </ul>
 
           <!-- SEARCH FORM -->
@@ -59,6 +62,14 @@ scratch. This page gets rid of all links and provides the needed markup only.
             </div>
           </form>
         </div>
+        
+      <ul class="order-1 order-md-3 navbar-nav navbar-no-expand ml-auto">
+        <li class="nav-item">
+          <!-- Jika user sudah login, arahkan tombol logout ke halaman logout -->
+          <!-- Jika user belum login, arahkan tombol logout ke halaman login -->
+          <a href="login/logout" class="nav-link">Logout</a>
+        </li>
+      </ul>
       </div>
     </nav>
     <!-- /.navbar -->
@@ -74,8 +85,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
             </div><!-- /.col -->
             <div class="col-sm-6">
               <ol class="breadcrumb float-sm-right">
-                <li class="breadcrumb-item "><a href="/">Home</a></li>
-                <li class="breadcrumb-item active"><a href="#">EDOM</a></li>
+                <li class="breadcrumb-item active"><a href="#">ADMIN</a></li>
               </ol>
             </div><!-- /.col -->
           </div><!-- /.row -->
@@ -99,7 +109,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
               <div class="icon">
                 <i class="fas fa-book"></i>
               </div>
-              <a href="jurusan" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a>
+              <a href="jurusan" class="small-box-footer">Tambah Jurusan <i class="fas fa-arrow-circle-right"></i></a>
             </div>
           </div>
           <!-- ./col -->
@@ -114,7 +124,35 @@ scratch. This page gets rid of all links and provides the needed markup only.
               <div class="icon">
                 <i class="fas fa-book"></i>
               </div>
-              <a href="prodi" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a>
+              <a href="prodi" class="small-box-footer">Tambah Program Studi <i class="fas fa-arrow-circle-right"></i></a>
+            </div>
+          </div>
+          <div class="col-lg-3 col-6">
+            <!-- small box -->
+            <div class="small-box bg-info">
+              <div class="inner">
+                <h3>7</h3>
+
+                <p>Kelas</p>
+              </div>
+              <div class="icon">
+                <i class="fas fa-book"></i>
+              </div>
+              <a href="kelas" class="small-box-footer">Tambah Kelas <i class="fas fa-arrow-circle-right"></i></a>
+            </div>
+          </div>
+          <div class="col-lg-3 col-6">
+            <!-- small box -->
+            <div class="small-box bg-success">
+              <div class="inner">
+                <h3>49<sup style="font-size: 20px"></sup></h3>
+
+                <p>KBM</p>
+              </div>
+              <div class="icon">
+                <i class="fas fa-book"></i>
+              </div>
+              <a href="kbm" class="small-box-footer">Tambah KBM <i class="fas fa-arrow-circle-right"></i></a>
             </div>
           </div>
           <!-- ./col -->

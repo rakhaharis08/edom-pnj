@@ -62,6 +62,13 @@ scratch. This page gets rid of all links and provides the needed markup only.
             </div>
           </form>
         </div>
+      <ul class="order-1 order-md-3 navbar-nav navbar-no-expand ml-auto">
+        <li class="nav-item">
+          <!-- Jika user sudah login, arahkan tombol logout ke halaman logout -->
+          <!-- Jika user belum login, arahkan tombol logout ke halaman login -->
+          <a href="login/logout" class="nav-link">Logout</a>
+        </li>
+      </ul>
       </div>
     </nav>
     <!-- /.navbar -->
@@ -77,7 +84,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
             </div><!-- /.col -->
             <div class="col-sm-6">
               <ol class="breadcrumb float-sm-right">
-                <li class="breadcrumb-item "><a href="/">Home</a></li>
+                <li class="breadcrumb-item active"><a href="/">USER</a></li>
                 <li class="breadcrumb-item active"><a href="#">EDOM</a></li>
               </ol>
             </div><!-- /.col -->
@@ -168,11 +175,11 @@ scratch. This page gets rid of all links and provides the needed markup only.
                   <div class="card-footer">
 
                     
-                    <input type="text" value="<%= dosen_id %>" name="dosen_id" class="form-control" >
-                    <input type="text" value="<%= matkul_id %>" name="matkul_id" class="form-control" >
-                    <input type="text" value="<%= semesterYear %>" name="semester_year" class="form-control" >
-                    <input type="text" value="<%= semesterGage %>" name="semester_gage" class="form-control" >
-                    <input type="text" value="<%= user_id %>" name="user_id" class="form-control" >
+                    <input type="hidden" value="<%= dosen_id %>" name="dosen_id" class="form-control" >
+                    <input type="hidden" value="<%= matkul_id %>" name="matkul_id" class="form-control" >
+                    <input type="hidden" value="<%= semesterYear %>" name="semester_year" class="form-control" >
+                    <input type="hidden" value="<%= semesterGage %>" name="semester_gage" class="form-control" >
+                    <input type="hidden" value="<%= user_id %>" name="user_id" class="form-control" >
                     <button type="submit" class="btn btn-primary">Submit</button>
                   </div>
                 </form>

@@ -89,28 +89,41 @@ scratch. This page gets rid of all links and provides the needed markup only.
           <div class="col-12">
             <div class="card">
               <div class="card-header">
-                <h3 class="card-title">Program Studi</h3>
+                <h3 class="card-title">KBM</h3>
               </div>
               <!-- /.card-header -->
               <div class="card-body">
               <table id="example2" class="table table-bordered table-hover">
                 <thead>
                   <tr>
-                    <th>Program Studi</th>
+                    <th>KBM</th>
                   </tr>
                 </thead>
                 <tbody>
-                  <form action="<%= url %>add-prodi/saveprodi" method="POST">
+                  <form action="<%= url %>add-kbm/savekbm" method="POST">
                     <tr>
                       <td>
-                        <input type="text" name="prodi" placeholder="Masukkan Nama Program Studi" class="form-control">
+                        <Select name="kelas" class="form-control">
+                          <% for (let i = 0; i < kelas_kelas.length; i++) { %>
+                            <option value="<%= kelas_kelas[i].kelas_id %>"><%= kelas_kelas[i].kelas_name.toUpperCase()  %></option>
+                          <% } %>
+                        </Select>
                       </td>
                     </tr>
                     <tr>
                       <td>
-                        <Select name="jurusan" class="form-control">
-                          <% for (let i = 0; i < jurusan_jurusan.length; i++) { %>
-                            <option value="<%= jurusan_jurusan[i].jurusan_id %>"><%= jurusan_jurusan[i].jurusan_name.toUpperCase()  %></option>
+                        <Select name="dosen" class="form-control">
+                          <% for (let i = 0; i < dosen_dosen.length; i++) { %>
+                            <option value="<%= dosen_dosen[i].dosen_id %>"><%= dosen_dosen[i].dosen_name.toUpperCase()  %></option>
+                          <% } %>
+                        </Select>
+                      </td>
+                    </tr>
+                    <tr>
+                      <td>
+                        <Select name="matkul" class="form-control">
+                          <% for (let i = 0; i < matkul_matkul.length; i++) { %>
+                            <option value="<%= matkul_matkul[i].matkul_id %>"><%= matkul_matkul[i].matkul_name.toUpperCase()  %></option>
                           <% } %>
                         </Select>
                       </td>

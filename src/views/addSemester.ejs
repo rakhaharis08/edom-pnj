@@ -22,7 +22,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
   <!-- Navbar -->
   <nav class="main-header navbar navbar-expand-md navbar-light navbar-white">
     <div class="container">
-      <a href="/" class="navbar-brand">
+      <a href="/admin" class="navbar-brand">
         <img src="/dist/img/edomlogo.png" alt="AdminLTE Logo" class="brand-image img-circle elevation-3" style="opacity: .8">
         <span class="brand-text font-weight-light">EDOM PNJ v.1.0</span>
       </a>
@@ -35,7 +35,13 @@ scratch. This page gets rid of all links and provides the needed markup only.
         <!-- Left navbar links -->
         <ul class="navbar-nav">
           <li class="nav-item">
-            <a href="/" class="nav-link">Home</a>
+            <a href="/admin" class="nav-link">Home</a>
+          </li>
+          <li class="nav-item">
+            <a href="/auth-register" class="nav-link">Authentikasi Register</a>
+          </li>
+          <li class="nav-item">
+            <a href="/semester" class="nav-link">Manage Semester</a>
           </li>
         </ul>
 
@@ -73,7 +79,9 @@ scratch. This page gets rid of all links and provides the needed markup only.
           </div><!-- /.col -->
           <div class="col-sm-6">
             <ol class="breadcrumb float-sm-right">
-              <li class="breadcrumb-item active"><a href="#">Home</a></li>
+              <li class="breadcrumb-item "><a href="admin">ADMIN</a></li>
+              <li class="breadcrumb-item "><a href="semester">MANAGE-SEMESTER</a></li>
+              <li class="breadcrumb-item active"><a href="#">ADD SEMESTER</a></li>
             </ol>
           </div><!-- /.col -->
         </div><!-- /.row -->
@@ -89,29 +97,28 @@ scratch. This page gets rid of all links and provides the needed markup only.
           <div class="col-12">
             <div class="card">
               <div class="card-header">
-                <h3 class="card-title">Program Studi</h3>
+                <h3 class="card-title">Semester</h3>
               </div>
               <!-- /.card-header -->
               <div class="card-body">
               <table id="example2" class="table table-bordered table-hover">
                 <thead>
                   <tr>
-                    <th>Program Studi</th>
+                    <th>Semester</th>
                   </tr>
                 </thead>
                 <tbody>
-                  <form action="<%= url %>add-prodi/saveprodi" method="POST">
+                  <form action="<%= url %>add-semester/savesemester" method="POST">
                     <tr>
                       <td>
-                        <input type="text" name="prodi" placeholder="Masukkan Nama Program Studi" class="form-control">
+                        <input type="text" name="semester" placeholder="Masukkan Tahun Ajaran" class="form-control">
                       </td>
                     </tr>
                     <tr>
                       <td>
-                        <Select name="jurusan" class="form-control">
-                          <% for (let i = 0; i < jurusan_jurusan.length; i++) { %>
-                            <option value="<%= jurusan_jurusan[i].jurusan_id %>"><%= jurusan_jurusan[i].jurusan_name.toUpperCase()  %></option>
-                          <% } %>
+                        <Select name="gage" class="form-control">
+                            <option value="1">Ganjil</option>
+                            <option value="2">Genap</option>
                         </Select>
                       </td>
                     </tr>
