@@ -1,9 +1,9 @@
 const mysql = require('mysql');
 const dbConfig = {
-    host                : '103.247.8.46',
-    user                : 'ungc3294_ian',
-    password            : 'anputar29',
-    database            : 'ungc3294_test'
+    host                : 'bsvvvqfjx0qfkq4sewhu-mysql.services.clever-cloud.com',
+    user                : 'u9gceim0rieilj5t',
+    password            : 'PQXuecc7MTvgvlJHp4vD',
+    database            : 'bsvvvqfjx0qfkq4sewhu'
 };
 
 const connection = mysql.createConnection(dbConfig);
