@@ -1,9 +1,9 @@
 const mysql = require('mysql');
 const dbConfig = {
-    host                : 'db4free.net',
-    user                : 'halohalotest',
-    password            : 'anputar29_',
-    database            : 'halohalotest'
+    host                : 'sql6.freemysqlhosting.net',
+    user                : 'sql6634322',
+    password            : 'zxfP5iH7SL',
+    database            : 'sql6634322'
 };
 
 const connection = mysql.createConnection(dbConfig);
