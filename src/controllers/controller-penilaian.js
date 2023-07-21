@@ -53,7 +53,7 @@ module.exports ={
       
                       
                       res.render("penilaian", {
-                        url: "http://localhost:5050/",
+                        url: "https://beautiful-pink-scarab.cyclic.app",
                         userName: req.session.username,
                         nama: user["user_name"],
                         email: user["user_email"],

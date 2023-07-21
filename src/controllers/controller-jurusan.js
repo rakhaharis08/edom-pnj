@@ -26,7 +26,7 @@ module.exports = {
           if (error) throw error;
           
           res.render("jurusan", {
-            url: 'http://localhost:5050/',
+            url: 'https://beautiful-pink-scarab.cyclic.app',
             userName: req.session.username,
             nama: results[0]['user_name'],
             email: results[0]['user_email'],
@@ -58,7 +58,7 @@ module.exports = {
           if (error) throw error;
           
           res.render("addJurusan", {
-            url: 'http://localhost:5050/',
+            url: 'https://beautiful-pink-scarab.cyclic.app',
             userName: req.session.username,
             nama: results[0]['user_name'],
             email: results[0]['user_email'],

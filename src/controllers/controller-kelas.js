@@ -26,7 +26,7 @@ module.exports = {
 
   
       res.render("kelas", {
-        url: 'http://localhost:5050/',
+        url: 'https://beautiful-pink-scarab.cyclic.app',
         userName: req.session.username,
         nama: results[0]['user_name'],
         email: results[0]['user_email'],
@@ -54,7 +54,7 @@ module.exports = {
       const results = await queryPromise(connection, `SELECT * FROM table_user WHERE user_id = '${id}'`);
 
       res.render("addKelas", {
-        url: 'http://localhost:5050/',
+        url: 'https://beautiful-pink-scarab.cyclic.app',
         userName: req.session.username,
         nama: results[0]['user_name'],
         email: results[0]['user_email'],

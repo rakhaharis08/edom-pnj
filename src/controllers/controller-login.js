@@ -11,7 +11,7 @@ module.exports ={
     // Render tampilan untuk login yang ada didalam folder 'src/views/login.ejs'
     login(req,res){
         res.render("login",{
-            url : 'http://localhost:5050/',
+            url : 'https://beautiful-pink-scarab.cyclic.app',
             // Kirim juga library flash yang telah di set
             colorFlash: req.flash('color'),
             statusFlash: req.flash('status'),
@@ -84,7 +84,7 @@ module.exports ={
         }
       },
       
-    // Fungsi untuk logout | Cara memanggilnya menggunakan url/rute 'http://localhost:5050/login/logout'
+    // Fungsi untuk logout | Cara memanggilnya menggunakan url/rute 'https://beautiful-pink-scarab.cyclic.applogin/logout'
     logout(req,res){
         // Hapus sesi user dari broser
         req.session.destroy((err) => {
