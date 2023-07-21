@@ -1,7 +1,7 @@
 module.exports = {
     multipleStatements  : true,
-    host                : 'localhost',
-    user                : 'root',
-    password            : '',
-    database            : 'db_edom'
+    host                : 'bsvvvqfjx0qfkq4sewhu-mysql.services.clever-cloud.com',
+    user                : 'u9gceim0rieilj5t',
+    password            : 'u9gceim0rieilj5t',
+    database            : 'bsvvvqfjx0qfkq4sewhu'
 };
