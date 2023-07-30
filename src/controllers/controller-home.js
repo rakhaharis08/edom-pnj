@@ -48,7 +48,7 @@ module.exports ={
             , function (error, results) {
                 if(error) throw error;
                 res.render("home",{
-                    url: 'https://beautiful-pink-scarab.cyclic.app/',
+                    url: 'http://localhost:5050/',
                     userName: req.session.username,
                     userid : req.session.userid,
                     semesterYear : req.session.semesterYear,

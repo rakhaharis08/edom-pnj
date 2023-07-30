@@ -24,7 +24,7 @@ module.exports = {
       const results = await queryPromise(connection, `SELECT * FROM table_user WHERE user_id = '${id}'`);
 
       res.render("auth-user", {
-        url: 'https://beautiful-pink-scarab.cyclic.app/',
+        url: 'http://localhost:5050/',
         userName: req.session.username,
         nama: results[0]['user_name'],
         email: results[0]['user_email'],

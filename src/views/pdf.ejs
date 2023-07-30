@@ -73,9 +73,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
           </div><!-- /.col -->
           <div class="col-sm-6">
             <ol class="breadcrumb float-sm-right">
-              <li class="breadcrumb-item active"><a href="/">USER</a></li>
-              <li class="breadcrumb-item active"><a href="marksheet">PERMOHONAN-MARKSHEET</a></li>
-              <li class="breadcrumb-item active"><a href="#">QRCODE-MARKSHEET</a></li>
+              <li class="breadcrumb-item active"><a href="/">PDF BUKTI</a></li>
             </ol>
           </div><!-- /.col -->
         </div><!-- /.row -->
@@ -90,14 +88,54 @@ scratch. This page gets rid of all links and provides the needed markup only.
           <div class="col-md-12">
             <div class="card card-primary">
               <div class="card-header">
-                <h3 class="card-title">Bukti Edom</h3>
+                <h4 class="card-title">Surat Pernyataan Telah Mengisi EDOM</h4>
               </div>
               <div class="card-body">
-                <!-- Div to hold the QR code -->
-                <div id="qrcode"></div>
-    
-                <!-- Button to download the QR code as an image -->
-                <button onclick="downloadQRCode()" class="btn btn-primary mt-3">Download QR Code</button>
+                <center><h4><b>Bukti Pengisian Formulir</b></h4></center>
+                <center><h4><b>Evaluasi Dosen oleh Mahasiwa (EDOM)</b></h4></center>
+                <center><h4><b>Teknik Informatika dan Komputer / Teknik Informatika</b></h4></center>
+                <center><h4><b>Politeknik Negeri Jakarta</b></h4></center>
+                <br>
+                <table id="example2" class="table table-bordered table-hover">
+                  <thead>
+                    <tr>
+                      <th>No</th>
+                      <th>Mata Kuliah</th>
+                      <th>Periode</th>
+                      <th>Semester</th>
+                      <th>Nama Dosen</th>
+                      <th>Status</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <% for (let i = 0; i < dosen_name.length; i++) { %>
+                      <tr>
+                        <td>1</td>
+                        <td><%= dosen_name[i].matkul_name.toUpperCase() %></td>
+                        <% for (let i = 0; i < semester_semester.length; i++) { %>
+                          <td><%= semester_semester[i].semester_year.toUpperCase()  %></td>
+                          <td>
+                            <% if (semester_semester[i].semester_gage == 1) { %>
+                              Ganjil
+                            <% } else if (semester_semester[i].semester_gage == 2) { %>
+                              Genap
+                            <% } else { %>
+                              Invalid Semester
+                            <% } %>
+                          </td>
+                        <% } %>
+                        <td><%= dosen_name[i].dosen_name.toUpperCase() %></td>
+                        <td>100%</td>
+                      </tr>
+                  <% } %>
+                  </tbody>
+                </table>
+                <br><br>
+                <p>Dokumen ini rahasia. Dosen yang bersangkutan tidak mengetahui Mahasiswa yang menilai.</p>
+                <br><br>
+                <p style="text-align: right;">Mahasiswa yang bersangkutan</p>
+                <br><br><br>
+                <p style="text-align: right;">Rakha Haris</p>
               </div>
             </div>
           </div>
@@ -115,14 +153,6 @@ scratch. This page gets rid of all links and provides the needed markup only.
   <!-- /.control-sidebar -->
 
   <!-- Main Footer -->
-  <footer class="main-footer">
-    <!-- To the right -->
-    <div class="float-right d-none d-sm-inline">
-      Anything you want
-    </div>
-    <!-- Default to the left -->
-    <strong>Copyright &copy; 2023 <a href="https://adminlte.io">Politeknik Negeri Jakarta</a>.</strong> All rights reserved.
-  </footer>
 </div>
 <!-- ./wrapper -->
 
@@ -143,52 +173,8 @@ scratch. This page gets rid of all links and provides the needed markup only.
 <script src="https://cdn.rawgit.com/davidshimjs/qrcodejs/gh-pages/qrcode.min.js"></script>
 
 <!-- Page specific script -->
-<script>
-  // Function to generate the QR code
-  function generateQRCode() {
-    var userId = "<%= userid %>";
-
-    // Get the link for the QR code
-    var Link = "localhost:5050/pdf-edom?mahasiswa='" + userId + "'";
-
-    // Generate the QR code
-    var qrcode = new QRCode(document.getElementById("qrcode"), {
-      width: 150,
-      height: 150,
-    });
-    qrcode.makeCode(Link);
-
-    // Show the download button
-    document.getElementById("downloadButton").style.display = "block";
-  }
-
-  // Function to download the QR code as an image
-  function downloadQRCode() {
-    // Get the QR code image as a base64 string
-    var qrCodeImage = document.getElementById("qrcode").querySelector("img");
-    var dataURL = qrCodeImage.src;
-
-    // Create a temporary anchor element to trigger the download
-    var downloadLink = document.createElement("a");
-    downloadLink.href = dataURL;
-    downloadLink.download = "qrcode.jpg";
-
-    // Append the anchor element to the document and trigger the download
-    document.body.appendChild(downloadLink);
-    downloadLink.click();
-
-    // Clean up the temporary anchor element
-    document.body.removeChild(downloadLink);
-  }
-</script>
 
 <!-- ... (your existing code) ... -->
-
-<!-- Call the generateQRCode() function directly after the script -->
-<script>
-  // Call the generateQRCode() function directly
-  generateQRCode();
-</script>
 
 </body>
 </html>

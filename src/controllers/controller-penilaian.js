@@ -53,7 +53,7 @@ module.exports ={
       
                       
                       res.render("penilaian", {
-                        url: "https://beautiful-pink-scarab.cyclic.app/",
+                        url: "http://localhost:5050/",
                         userName: req.session.username,
                         nama: user["user_name"],
                         email: user["user_email"],
@@ -112,7 +112,6 @@ module.exports ={
         let user_id = req.body.user_id;
         let matkul_id = req.body.matkul_id;
         let semester_year = req.body.semester_year;
-        let semester_gage = req.body.semester_gage;
       
         // Pastikan semua variabel terisi
         if (
@@ -146,14 +145,13 @@ module.exports ={
           dosen_id &&
           user_id &&
           matkul_id &&
-          semester_year &&
-          semester_gage
+          semester_year 
         ) {
           // Panggil koneksi dan eksekusi query
           pool.getConnection(function (err, connection) {
             if (err) throw err;
             connection.query(
-              "INSERT INTO table_answer (q1, q2, q3, q4, q5, q6, q7, q8, q9, q10, q11, q12, q13, q14, q15, q16, q17, q18, q19, q20, q21, q22, q23, q24, q25, q26, q27, answer_dosen, answer_user,answer_matkul,answer_semester,answer_gage) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)",
+              "INSERT INTO table_answer (q1, q2, q3, q4, q5, q6, q7, q8, q9, q10, q11, q12, q13, q14, q15, q16, q17, q18, q19, q20, q21, q22, q23, q24, q25, q26, q27, answer_dosen, answer_user,answer_matkul,answer_semester) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)",
               [
                 q1,
                 q2,
@@ -185,8 +183,7 @@ module.exports ={
                 dosen_id,
                 user_id,
                 matkul_id,
-                semester_year,
-                semester_gage
+                semester_year
               ],
               function (error, results) {
                 if (error) throw error;

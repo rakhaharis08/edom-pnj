@@ -22,7 +22,8 @@ router.get('/marksheet', verifyUser.isLogin, verifyUser.isUser, marksheetControl
 router.get('/link-marksheet', verifyUser.isLogin, verifyUser.isUser,marksheetController.linkmarksheet);
 router.post('/marksheet/add-marksheet', verifyUser.isLogin, verifyUser.isUser, marksheetController.addmarksheet);
 router.get('/penilaian', verifyUser.isLogin, verifyUser.isUser, penilaianController.penilaian);
-router.post('/penilaian/savepenilaian', verifyUser.isLogin, verifyUser.isUser, penilaianController.savepenilaian); // Tambahkan rute POST savepenilaian
+router.post('/penilaian/savepenilaian', verifyUser.isLogin, verifyUser.isUser, penilaianController.savepenilaian);
+router.get('/pdf-edom', verifyUser.isLogin, verifyUser.isUser, marksheetController.pdf); 
 
 //Dosen
 router.get('/dosen', verifyUser.isLogin, verifyUser.isDosen, dosenController.dosen);

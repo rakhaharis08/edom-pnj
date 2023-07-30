@@ -39,6 +39,6 @@ app.use('/register', registerRoutes);
 app.use('/', appRoutes);
 
 // Gunakan port server
-app.listen(3306, ()=>{
-    console.log('Server Berjalan di Port : '+3306);
+app.listen(5050, ()=>{
+    console.log('Server Berjalan di Port : '+5050);
 });
