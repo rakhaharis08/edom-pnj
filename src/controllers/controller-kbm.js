@@ -66,7 +66,7 @@ module.exports = {
 
       const results = await queryPromise(connection, `SELECT * FROM table_user WHERE user_id = '${id}'`);
       const kelasResults = await queryPromise(connection, `SELECT kelas_id,prodi_name,kelas_semester,kelas_subkelas FROM table_kelas INNER JOIN table_prodi ON table_prodi.prodi_id = table_kelas.kelas_prodi`);
-      const dosenResults = await queryPromise(connection, `SELECT * FROM table_dosen`);
+      const dosenResults = await queryPromise(connection, `SELECT * FROM table_dosen ORDER BY dosen_name ASC`);
       const matkulResults = await queryPromise(connection, `SELECT * FROM table_matkul ORDER BY matkul_name ASC;`);
       
       const modifiedKelasResults = kelasResults.map((kelas) => {
