@@ -175,11 +175,11 @@ scratch. This page gets rid of all links and provides the needed markup only.
                       </tr>
                     </thead>
                     <tbody>
-                      <% for (let i = 0; i < matkul_name.length; i++) { %>
+                      <% for (let i = 0; i < kelasResults.length; i++) { %> <!-- Change kelas_name to kelasResults here -->
                       <tr>
                         <td><%- i + 1 %>.</td>
-                        <td><%= matkul_name[i].toUpperCase() %></td>
-                        <td><%= kelas_name[i].toUpperCase() %></td>
+                        <td><%= kelasResults[i].matkul_name %></td> <!-- Change kelasResult to kelasResults here -->
+                        <td><%= kelasResults[i].kelas_name.toUpperCase() %></td> <!-- Change kelas_name to kelasResults[i].kelas_name -->
                         <td>
                           <div class="progress progress-xs progress-striped active">
                             <div class="progress-bar bg-success" style="width: <%= parseFloat(rata_rata_jawaban[i]).toFixed(2) %>%"></div>

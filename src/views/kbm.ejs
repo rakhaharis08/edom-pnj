@@ -107,7 +107,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
                   <% for (let i = 0; i < kbm_kbm.length; i++) { %>
                     <tr>
                       <td><%= i + 1 %></td>
-                      <td><%= kbm_kbm[i].kelas_name.toUpperCase()  %></td>
+                      <td><%= kbm_kbm[i].prodi_name.toUpperCase()  %> <%= kbm_kbm[i].kelas_semester  %><%= kbm_kbm[i].kelas_subkelas.toUpperCase()  %></td>
                       <td><%= kbm_kbm[i].dosen_name.toUpperCase()   %></td>
                       <td><%= kbm_kbm[i].matkul_name.toUpperCase()   %></td>
                     </tr>

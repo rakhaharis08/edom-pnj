@@ -102,11 +102,25 @@ scratch. This page gets rid of all links and provides the needed markup only.
                 </thead>
                 <tbody>
                   <form action="/add-kelas/savekelas" method="POST">
-                    <tr>
-                      <td>
-                        <input type="text" name="kelas" placeholder="Masukkan Nama Kelas" class="form-control">
-                      </td>
-                    </tr>
+                      <tr>
+                        <td> 
+                          <Select name="prodi" class="form-control">
+                            <% for (let i = 0; i < prodi_prodi.length; i++) { %>
+                              <option value="<%= prodi_prodi[i].prodi_id %>"><%= prodi_prodi[i].prodi_name.toUpperCase()  %></option>
+                            <% } %>
+                          </Select>
+                        </td>
+                      </tr>
+                      <tr>
+                        <td>
+                          <input type="text" name="semester" placeholder="Masukkan Semester" class="form-control">
+                        </td>
+                      </tr>
+                      <tr>
+                        <td>
+                          <input type="text" name="subkelas" placeholder="Masukkan Sub Kelas" class="form-control">
+                        </td>
+                      </tr>
                     <tr>
                       <td>
                         <input type="submit" class="form-control btn btn-primary">

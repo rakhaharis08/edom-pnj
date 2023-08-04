@@ -105,7 +105,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
                   <% for (let i = 0; i < kelas_kelas.length; i++) { %>
                     <tr>
                       <td><%= i + 1 %></td>
-                      <td><%= kelas_kelas[i].kelas_name.toUpperCase()  %></td>
+                      <td><%= kelas_kelas[i].prodi_name.toUpperCase()  %> <%= kelas_kelas[i].kelas_semester  %><%= kelas_kelas[i].kelas_subkelas.toUpperCase()%></td>
                     </tr>
                   <% } %>
                 </tbody>

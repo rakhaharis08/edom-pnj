@@ -93,49 +93,51 @@ scratch. This page gets rid of all links and provides the needed markup only.
               </div>
               <!-- /.card-header -->
               <div class="card-body">
-              <table id="example2" class="table table-bordered table-hover">
-                <thead>
-                  <tr>
-                    <th>KBM</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  <form action="<%= url %>add-kbm/savekbm" method="POST">
+                <form id="formTambahKBM" action="<%= url %>add-kbm/savekbm" method="POST">
+                <table id="tabelMatkul" class="table table-bordered table-hover">
+                  <thead>
                     <tr>
-                      <td>
-                        <Select name="kelas" class="form-control">
-                          <% for (let i = 0; i < kelas_kelas.length; i++) { %>
-                            <option value="<%= kelas_kelas[i].kelas_id %>"><%= kelas_kelas[i].kelas_name.toUpperCase()  %></option>
-                          <% } %>
-                        </Select>
-                      </td>
+                      <th>KBM</th>
                     </tr>
-                    <tr>
-                      <td>
-                        <Select name="dosen" class="form-control">
-                          <% for (let i = 0; i < dosen_dosen.length; i++) { %>
-                            <option value="<%= dosen_dosen[i].dosen_id %>"><%= dosen_dosen[i].dosen_name.toUpperCase()  %></option>
-                          <% } %>
-                        </Select>
-                      </td>
-                    </tr>
-                    <tr>
-                      <td>
-                        <Select name="matkul" class="form-control">
-                          <% for (let i = 0; i < matkul_matkul.length; i++) { %>
-                            <option value="<%= matkul_matkul[i].matkul_id %>"><%= matkul_matkul[i].matkul_name.toUpperCase()  %></option>
-                          <% } %>
-                        </Select>
-                      </td>
-                    </tr>
-                    <tr>
-                      <td>
-                        <input type="submit" class="form-control btn btn-primary">
-                      </td>
-                    </tr>
-                  </form>
-                </tbody>
-              </table>
+                  </thead>
+                  <tbody>
+                      <tr>
+                        <td>
+                          <Select name="kelas" class="form-control">
+                            <% for (let i = 0; i < kelas_kelas.length; i++) { %>
+                            <option value="<%= kelas_kelas[i].kelas_id %>"><%= kelas_kelas[i].prodi_name %> <%= kelas_kelas[i].kelas_semester %><%= kelas_kelas[i].kelas_subkelas %></option>
+                            <% } %>
+                          </Select>
+                        </td>
+                      </tr>
+                      <tr>
+                        <td>
+                          <div id="selectContainer">
+                            <!-- Inputan Select untuk Matkul -->
+                            <Select name="matkul" class="form-control">
+                              <% for (let i = 0; i < matkul_matkul.length; i++) { %>
+                              <option value="<%= matkul_matkul[i].matkul_id %>"><%= matkul_matkul[i].matkul_name.toUpperCase() %></option>
+                              <% } %>
+                              </Select>
+
+                            <!-- Inputan Select untuk Dosen -->
+                            <Select name="dosen" class="form-control">
+                              <% for (let i = 0; i < dosen_dosen.length; i++) { %>
+                              <option value="<%= dosen_dosen[i].dosen_id %>"><%= dosen_dosen[i].dosen_name.toUpperCase() %></option>
+                              <% } %>
+                            </Select><br>
+                          </div>
+                          <input type="button" class="form-control btn btn-primary" value="Tambah Matkul & Dosen" onclick="tambahInputanMatkulDosen()">
+                        </td>
+                      </tr>
+                      <tr>
+                        <td>
+                          <input type="submit" class="form-control btn btn-primary">
+                        </td>
+                      </tr>
+                  </tbody>
+                </table>
+                </form>                     
               </div>
               <!-- /.card-body -->
             </div>
@@ -168,6 +170,67 @@ scratch. This page gets rid of all links and provides the needed markup only.
 <!-- ./wrapper -->
 
 <!-- REQUIRED SCRIPTS -->
+<!-- JavaScript -->
+<script>
+let inputPairCounter = []; // To keep track of the number of input pairs
+
+function tambahInputanMatkulDosen() {
+  // Ambil data matkul_matkul dan dosen_dosen dari server-side yang sudah dilewatkan oleh controller
+  const matkul_matkul = <%- JSON.stringify(matkul_matkul) %>;
+  const dosen_dosen = <%- JSON.stringify(dosen_dosen) %>;
+
+  // Get the container where the new "Select" elements will be appended
+  const selectContainer = document.getElementById("selectContainer");
+
+  // Create a new div for each pair of matkul and dosen selects
+  const newInputPair = document.createElement("div");
+  newInputPair.setAttribute("class", "input-pair");
+  newInputPair.setAttribute("name", "input-pair-" + inputPairCounter); // Set a name for the new div
+
+  // Create a new "Select" element for matkul
+  const newSelectMatkul = document.createElement("select");
+  newSelectMatkul.setAttribute("name", "matkul"); // Remove the brackets since the pairs will be uniquely named using the inputPairCounter
+  newSelectMatkul.setAttribute("class", "form-control");
+
+  // Populate the options of the new "Select" element for matkul using the matkul_matkul data
+  for (let i = 0; i < matkul_matkul.length; i++) {
+    const option = document.createElement("option");
+    option.setAttribute("value", matkul_matkul[i].matkul_id);
+    option.textContent = matkul_matkul[i].matkul_name.toUpperCase();
+    newSelectMatkul.appendChild(option);
+  }
+
+  // Create a new "Select" element for dosen
+  const newSelectDosen = document.createElement("select");
+  newSelectDosen.setAttribute("name", "dosen"); // Remove the brackets since the pairs will be uniquely named using the inputPairCounter
+  newSelectDosen.setAttribute("class", "form-control");
+
+  // Populate the options of the new "Select" element for dosen using the dosen_dosen data
+  for (let i = 0; i < dosen_dosen.length; i++) {
+    const option = document.createElement("option");
+    option.setAttribute("value", dosen_dosen[i].dosen_id);
+    option.textContent = dosen_dosen[i].dosen_name.toUpperCase();
+    newSelectDosen.appendChild(option);
+  }
+
+  // Append the new "Select" elements to the newInputPair div
+  newInputPair.appendChild(newSelectMatkul);
+  newInputPair.appendChild(newSelectDosen);
+  
+  const lineBreak = document.createElement("br");
+    newInputPair.appendChild(lineBreak);
+
+  // Append the newInputPair div to the selectContainer
+  selectContainer.appendChild(newInputPair);
+  
+  // Increment the counter for the next input pair
+  inputPairCounter++;
+  inputPairs.push(newInputPair);
+}
+
+</script>
+
+
 
 <!-- jQuery -->
 <!-- jQuery -->

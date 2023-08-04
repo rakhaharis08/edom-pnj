@@ -22,12 +22,20 @@ module.exports = {
       });
 
       const results = await queryPromise(connection, `SELECT * FROM table_user WHERE user_id = '${id}'`);
-      const kbmResults = await queryPromise(connection, `SELECT tk.kelas_name, td.dosen_name, tm.matkul_name
-      FROM table_kbm tkb
-      JOIN table_kelas tk ON tkb.kbm_kelas = tk.kelas_id
-      JOIN table_dosen td ON tkb.kbm_dosen = td.dosen_id
-      JOIN table_matkul tm ON tkb.kbm_matkul = tm.matkul_id
-      WHERE tkb.kbm_semester = '2';
+      const kbmResults = await queryPromise(connection, `
+      SELECT 
+      prodi_name,
+      kelas_semester,
+      kelas_subkelas,
+      dosen_name,
+      matkul_name
+  FROM
+      table_kbm
+  INNER JOIN table_kelas ON table_kelas.kelas_id = table_kbm.kbm_kelas
+  INNER JOIN table_prodi ON table_prodi.prodi_id = table_kelas.kelas_prodi
+  INNER JOIN table_dosen ON table_dosen.dosen_id = table_kbm.kbm_dosen
+  INNER JOIN table_matkul ON table_matkul.matkul_id = table_kbm.kbm_matkul
+  
       `);
 
       res.render("kbm", {
@@ -57,16 +65,28 @@ module.exports = {
       });
 
       const results = await queryPromise(connection, `SELECT * FROM table_user WHERE user_id = '${id}'`);
-      const kelasResults = await queryPromise(connection, `SELECT * FROM table_kelas`);
+      const kelasResults = await queryPromise(connection, `SELECT kelas_id,prodi_name,kelas_semester,kelas_subkelas FROM table_kelas INNER JOIN table_prodi ON table_prodi.prodi_id = table_kelas.kelas_prodi`);
       const dosenResults = await queryPromise(connection, `SELECT * FROM table_dosen`);
-      const matkulResults = await queryPromise(connection, `SELECT * FROM table_matkul`);
-
+      const matkulResults = await queryPromise(connection, `SELECT * FROM table_matkul ORDER BY matkul_name ASC;`);
+      
+      const modifiedKelasResults = kelasResults.map((kelas) => {
+        const prodiName = kelas.prodi_name;
+        const prodiNameAbbreviated = prodiName
+          .split(' ')
+          .map((word) => word.charAt(0)) // Mengambil karakter pertama dari setiap kata
+          .join(''); // Menggabungkan singkatan huruf depan menjadi satu kata
+        return {
+          ...kelas,
+          prodi_name: prodiNameAbbreviated,
+        };
+      });
+  
       res.render("addKbm", {
         url: 'http://localhost:5050/',
         userName: req.session.username,
         nama: results[0]['user_name'],
         email: results[0]['user_email'],
-        kelas_kelas  : kelasResults,
+        kelas_kelas  : modifiedKelasResults,
         dosen_dosen : dosenResults,
         matkul_matkul : matkulResults
       });
@@ -79,11 +99,9 @@ module.exports = {
   async savekbm(req, res) {
     try {
       const kelas = req.body.kelas;
-      const dosen = req.body.dosen;
-      const matkul = req.body.matkul;
-      let semester_year = req.session.semesterYear;
-      
-      if (matkul) {
+      const semester_year = req.session.semesterYear;
+    
+      if (req.body) {
         const connection = await new Promise((resolve, reject) => {
           pool.getConnection((err, conn) => {
             if (err) {
@@ -93,11 +111,28 @@ module.exports = {
             }
           });
         });
-
-        await queryPromise(connection, "INSERT INTO table_kbm (kbm_kelas,kbm_dosen,kbm_matkul,kbm_semester) VALUES (?,?,?,?)", [kelas,dosen,matkul,semester_year]);
-
-        res.redirect("/kbm");
-
+    
+        // Check if the request body has keys for matkul and dosen
+        if ('matkul' in req.body && 'dosen' in req.body) {
+          const matkul = Array.isArray(req.body.matkul) ? req.body.matkul : [req.body.matkul];
+          const dosen = Array.isArray(req.body.dosen) ? req.body.dosen : [req.body.dosen];
+          
+          // Memastikan matkul dan dosen memiliki jumlah yang sama
+          if (matkul.length === dosen.length) {
+            for (let i = 0; i < matkul.length; i++) {
+              await queryPromise(connection, "INSERT INTO table_kbm (kbm_kelas, kbm_dosen, kbm_matkul, kbm_semester) VALUES (?, ?, ?, ?)", [kelas, dosen[i], matkul[i], semester_year]);
+            }
+    
+            res.redirect("/kbm");
+          } else {
+            res.redirect("/add-kbm");
+            res.end();
+          }
+        } else {
+          res.redirect("/add-kbm");
+          res.end();
+        }
+    
         connection.release();
       } else {
         res.redirect("/add-kbm");
@@ -107,6 +142,7 @@ module.exports = {
       throw error;
     }
   }
+  
 };
 
 function queryPromise(connection, sql, values) {

@@ -127,6 +127,9 @@ scratch. This page gets rid of all links and provides the needed markup only.
                         <input type="submit" class="form-control btn btn-primary">
                       </td>
                     </tr>
+                    <% for (let i = 0; i < semester_semester.length; i++) { %>
+                      <input type="hidden" name="max_semester" value="<%= semester_semester[i].max_semester %>">
+                    <% } %>
                   </form>
                 </tbody>
               </table>
