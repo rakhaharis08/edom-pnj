@@ -46,7 +46,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
               <a href="#" class="nav-link">Profile</a>
             </li>
             <li class="nav-item">
-              <a href="marksheet.html" class="nav-link">Permohonan Marksheet</a>
+              <a href="marksheet" class="nav-link">Permohonan Marksheet</a>
             </li>
           </ul>
 
@@ -393,6 +393,37 @@ scratch. This page gets rid of all links and provides the needed markup only.
       })
     })
   </script>
+    <script>
+      document.addEventListener("DOMContentLoaded", function () {
+        // Mengambil semua elemen radio pada halaman
+        const radioInputs = document.querySelectorAll("input[type='radio']");
+
+        // Membuat variabel untuk menyimpan waktu terakhir pengisian radio
+        let lastRadioInputTime = 0;
+
+        // Menambahkan event listener untuk setiap elemen radio
+        radioInputs.forEach(function (radio) {
+          radio.addEventListener("click", function (event) {
+            const currentTime = Date.now();
+            // Menghitung selisih waktu antara pengisian radio saat ini dengan waktu terakhir
+            const timeDiff = (currentTime - lastRadioInputTime) / 1000; // dalam detik
+
+            // Jika waktu selisih kurang dari 3 detik, tampilkan pesan popup
+            if (timeDiff < 3) {
+              alert("ISI DATA ANDA DENGAN SEBENARNYA, TUNGGU SELAMA 3 DETIK");
+              // Mencegah pengisian radio selanjutnya
+              event.preventDefault();
+              if (timeoutId) {
+              clearTimeout(timeoutId);
+            }
+            }
+
+            // Memperbarui waktu terakhir pengisian radio
+            lastRadioInputTime = currentTime;
+          });
+        });
+      });
+    </script>
 </body>
 
 </html>

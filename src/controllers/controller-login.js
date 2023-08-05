@@ -54,7 +54,7 @@ module.exports ={
                     // Redirect berdasarkan peran (role) pengguna
                     if (results[0].user_role === 'dosen') {
                       res.redirect('/dosen');
-                    } else if (results[0].user_role === 'mahasiswa') {
+                    } else if (results[0].user_role === 'Mahasiswa') {
                       res.redirect('/');
                     } else if (results[0].user_role === 'kaprodi') {
                       res.redirect('/kaprodi');

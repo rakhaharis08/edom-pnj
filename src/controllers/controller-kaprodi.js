@@ -37,7 +37,7 @@ module.exports = {
         table_answer
         JOIN table_user ON table_answer.answer_user = table_user.user_id
         JOIN table_kelas ON table_user.user_kelas = table_kelas.kelas_id
-		JOIN table_matkul ON table_answer.answer_matkul = table_matkul.matkul_id
+		    JOIN table_matkul ON table_answer.answer_matkul = table_matkul.matkul_id
         JOIN table_prodi ON table_kelas.kelas_prodi = table_prodi.prodi_id
         JOIN table_kaprodi ON table_prodi.prodi_id = table_kaprodi.kaprodi_prodi
       WHERE
