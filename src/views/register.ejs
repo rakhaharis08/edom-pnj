@@ -34,7 +34,7 @@
                     <label>Kelas:</label>
                     <select name="kelas">
                         <% for (let i = 0; i < kelas_name.length; i++) { %>
-                            <option value="<%= kelas_name[i].kelas_id %>"><%= kelas_name[i].kelas_name %></option>
+                            <option value="<%= kelas_name[i].kelas_id %>"><%= kelas_name[i].prodi_name %> <%= kelas_name[i].kelas_semester %><%= kelas_name[i].kelas_subkelas %></option>
                         <% } %>
                     </select>
                 </div>

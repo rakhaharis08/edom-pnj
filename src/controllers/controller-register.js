@@ -20,7 +20,7 @@ module.exports = {
         });
       });
 
-      const results = await queryPromise(connection, `SELECT * FROM table_kelas`);
+      const results = await queryPromise(connection, `SELECT prodi_name,kelas_id,kelas_semester,kelas_subkelas FROM table_kelas JOIN table_prodi ON table_kelas.kelas_prodi = table_prodi.prodi_id`);
 
       res.render("register", {
         url: 'http://localhost:5050/',

@@ -24,19 +24,20 @@ module.exports = {
       const results = await queryPromise(connection, `SELECT * FROM table_user WHERE user_id = '${id}'`);
       const kbmResults = await queryPromise(connection, `
       SELECT 
-      prodi_name,
-      kelas_semester,
-      kelas_subkelas,
-      dosen_name,
-      matkul_name
-  FROM
-      table_kbm
-  INNER JOIN table_kelas ON table_kelas.kelas_id = table_kbm.kbm_kelas
-  INNER JOIN table_prodi ON table_prodi.prodi_id = table_kelas.kelas_prodi
-  INNER JOIN table_dosen ON table_dosen.dosen_id = table_kbm.kbm_dosen
-  INNER JOIN table_matkul ON table_matkul.matkul_id = table_kbm.kbm_matkul
-  
-      `);
+        prodi_name,
+        kelas_semester,
+        kelas_subkelas,
+        dosen_name,
+        matkul_name
+      FROM
+        table_kbm
+      INNER JOIN table_kelas ON table_kelas.kelas_id = table_kbm.kbm_kelas
+      INNER JOIN table_prodi ON table_prodi.prodi_id = table_kelas.kelas_prodi
+      INNER JOIN table_dosen ON table_dosen.dosen_id = table_kbm.kbm_dosen
+      INNER JOIN table_matkul ON table_matkul.matkul_id = table_kbm.kbm_matkul
+      ORDER BY table_kelas.kelas_id -- Urutkan berdasarkan kelas_id
+    `);
+    
 
       res.render("kbm", {
         url: 'http://localhost:5050/',

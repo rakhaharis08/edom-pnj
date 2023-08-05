@@ -28,29 +28,49 @@ module.exports = {
 
       const semesterResults = await queryPromise(connection, `SELECT * from table_semester`);
       const results = await queryPromise(connection, `SELECT * FROM table_user where user_id = '${id}'`);
-      const kelasResults = await queryPromise(connection, `SELECT
+      const kelasResults = await queryPromise(connection, `
+      SELECT
         CONCAT(table_prodi.prodi_name, '-', table_kelas.kelas_semester, '-', table_kelas.kelas_subkelas) AS kelas_name,
         table_kelas.kelas_prodi, table_matkul.matkul_name as matkul_name,
         (AVG(table_answer.q1) + AVG(table_answer.q2) + AVG(table_answer.q3) + AVG(table_answer.q4) + AVG(table_answer.q5) + AVG(table_answer.q6) + AVG(table_answer.q7) + AVG(table_answer.q8) + AVG(table_answer.q9) + AVG(table_answer.q10) + AVG(table_answer.q11) + AVG(table_answer.q12) + AVG(table_answer.q13) + AVG(table_answer.q14) + AVG(table_answer.q15) + AVG(table_answer.q16) + AVG(table_answer.q17) + AVG(table_answer.q18) + AVG(table_answer.q19) + AVG(table_answer.q20) + AVG(table_answer.q21) + AVG(table_answer.q22) + AVG(table_answer.q23) + AVG(table_answer.q24) + AVG(table_answer.q25) + AVG(table_answer.q26) + AVG(table_answer.q27)) / 27 * 20 AS rata_rata_jawaban
-      FROM
-        table_kaprodi
-        JOIN table_kelas ON table_kaprodi.kaprodi_prodi = table_kelas.kelas_prodi
-        JOIN table_kbm ON table_kbm.kbm_kelas = table_kelas.kelas_id
-        JOIN table_matkul ON table_matkul.matkul_id = table_kbm.kbm_matkul
-        JOIN table_answer ON table_answer.answer_matkul = table_matkul.matkul_id
-        JOIN table_prodi ON table_prodi.prodi_id = table_kelas.kelas_prodi
+    FROM
+        table_answer
+        JOIN table_user ON table_answer.answer_user = table_user.user_id
+        JOIN table_kelas ON table_user.user_kelas = table_kelas.kelas_id
+		JOIN table_matkul ON table_answer.answer_matkul = table_matkul.matkul_id
+        JOIN table_prodi ON table_kelas.kelas_prodi = table_prodi.prodi_id
+        JOIN table_kaprodi ON table_prodi.prodi_id = table_kaprodi.kaprodi_prodi
       WHERE
         table_kaprodi.kaprodi_user = '${id}' and
-        table_answer.answer_semester ='${semester_year}' 
-      GROUP BY
-        kelas_name`);
+        table_answer.answer_semester ='${semester_year}'
+    GROUP BY
+        matkul_name;
+      `);
 
-      const matkulName = kelasResults.map((result) => result.matkul_name);
-      const kelasName = kelasResults.map((result) => result.kelas_name);
       const rataRataJawaban = kelasResults.map((result) => result.rata_rata_jawaban);
 
+      const kelasResults2 = await queryPromise(connection, `
+      SELECT
+      CONCAT(table_prodi.prodi_name, '-', table_kelas.kelas_semester, '-', table_kelas.kelas_subkelas) AS kelas_name,
+      AVG((table_answer.q1+table_answer.q2+table_answer.q3+table_answer.q4+table_answer.q5+table_answer.q6+table_answer.q7+table_answer.q8+table_answer.q9+table_answer.q10+table_answer.q11+table_answer.q12+table_answer.q13+table_answer.q14+table_answer.q15+table_answer.q16+table_answer.q17+table_answer.q18+table_answer.q19+table_answer.q20+table_answer.q21+table_answer.q22+table_answer.q23+table_answer.q24+table_answer.q25+table_answer.q26+table_answer.q27)/27*20) AS rata_rata_jawaban
+      FROM
+          table_answer
+      JOIN table_user ON table_answer.answer_user = table_user.user_id
+      JOIN table_kelas ON table_user.user_kelas = table_kelas.kelas_id
+      JOIN table_prodi ON table_kelas.kelas_prodi = table_prodi.prodi_id
+      JOIN table_kaprodi ON table_prodi.prodi_id = table_kaprodi.kaprodi_prodi
+      WHERE
+            table_kaprodi.kaprodi_user = '${id}' and
+            table_answer.answer_semester ='${semester_year}'
+      GROUP BY
+          table_kelas.kelas_id
+    `);
+
+      const kelasName2 = kelasResults2.map((result) => result.kelas_name);
+      const rataRataJawaban2 = kelasResults2.map((result) => result.rata_rata_jawaban);
+
       const chartData = {
-        labels: kelasName.map(name => name.toUpperCase()),
+        labels: kelasName2.map(name => name.toUpperCase()),
         datasets: [{
           label: 'Rata Rata Penilaian dalam Persen',
           backgroundColor: 'rgba(60,141,188,0.9)',
@@ -60,7 +80,7 @@ module.exports = {
           pointStrokeColor: 'rgba(60,141,188,1)',
           pointHighlightFill: '#fff',
           pointHighlightStroke: 'rgba(60,141,188,1)',
-          data: rataRataJawaban.map(jawaban => parseFloat(jawaban).toFixed(2))
+          data: rataRataJawaban2.map(jawaban => parseFloat(jawaban).toFixed(2))
         }]
       };
 
@@ -104,7 +124,7 @@ module.exports = {
         const results = await queryPromise(connection, `SELECT * FROM table_user where user_id = '${id}'`);
         const kelasResults = await queryPromise(connection, `SELECT
           CONCAT(table_prodi.prodi_name, '-', table_kelas.kelas_semester, '-', table_kelas.kelas_subkelas) AS kelas_name,
-          table_kelas.kelas_prodi , table_matkul.matkul_name as matkul_name,
+          table_kelas.kelas_prodi, table_matkul.matkul_name as matkul_name,
           (AVG(table_answer.q1) + AVG(table_answer.q2) + AVG(table_answer.q3) + AVG(table_answer.q4) + AVG(table_answer.q5) + AVG(table_answer.q6) + AVG(table_answer.q7) + AVG(table_answer.q8) + AVG(table_answer.q9) + AVG(table_answer.q10) + AVG(table_answer.q11) + AVG(table_answer.q12) + AVG(table_answer.q13) + AVG(table_answer.q14) + AVG(table_answer.q15) + AVG(table_answer.q16) + AVG(table_answer.q17) + AVG(table_answer.q18) + AVG(table_answer.q19) + AVG(table_answer.q20) + AVG(table_answer.q21) + AVG(table_answer.q22) + AVG(table_answer.q23) + AVG(table_answer.q24) + AVG(table_answer.q25) + AVG(table_answer.q26) + AVG(table_answer.q27)) / 27 * 20 AS rata_rata_jawaban
         FROM
           table_kaprodi
@@ -115,15 +135,34 @@ module.exports = {
           JOIN table_prodi ON table_prodi.prodi_id = table_kelas.kelas_prodi
         WHERE
           table_kaprodi.kaprodi_user = '${id}' and
-          table_answer.answer_semester ='${semester_year}'
+          table_answer.answer_semester ='${semester_year}' 
         GROUP BY
-          kelas_name`);
-
-        const kelasName = kelasResults.map((result) => result.kelas_name);
+          matkul_name`);
+  
         const rataRataJawaban = kelasResults.map((result) => result.rata_rata_jawaban);
-
+  
+        const kelasResults2 = await queryPromise(connection, `SELECT
+        SELECT
+        CONCAT(table_prodi.prodi_name, '-', table_kelas.kelas_semester, '-', table_kelas.kelas_subkelas) AS kelas_name,
+        AVG((table_answer.q1+table_answer.q2+table_answer.q3+table_answer.q4+table_answer.q5+table_answer.q6+table_answer.q7+table_answer.q8+table_answer.q9+table_answer.q10+table_answer.q11+table_answer.q12+table_answer.q13+table_answer.q14+table_answer.q15+table_answer.q16+table_answer.q17+table_answer.q18+table_answer.q19+table_answer.q20+table_answer.q21+table_answer.q22+table_answer.q23+table_answer.q24+table_answer.q25+table_answer.q26+table_answer.q27)/27*20) AS rata_rata_jawaban
+        FROM
+            table_answer
+        JOIN table_user ON table_answer.answer_user = table_user.user_id
+        JOIN table_kelas ON table_user.user_kelas = table_kelas.kelas_id
+        JOIN table_prodi ON table_kelas.kelas_prodi = table_prodi.prodi_id
+        JOIN table_kaprodi ON table_prodi.prodi_id = table_kaprodi.kaprodi_prodi
+        WHERE
+              table_kaprodi.kaprodi_user = '${id}' and
+              table_answer.answer_semester ='${semester_year}'
+        GROUP BY
+            table_kelas.kelas_id
+        kelas_name`);
+  
+        const kelasName2 = kelasResults2.map((result) => result.kelas_name);
+        const rataRataJawaban2 = kelasResults2.map((result) => result.rata_rata_jawaban);
+  
         const chartData = {
-          labels: kelasName.map(name => name.toUpperCase()),
+          labels: kelasName2.map(name => name.toUpperCase()),
           datasets: [{
             label: 'Rata Rata Penilaian dalam Persen',
             backgroundColor: 'rgba(60,141,188,0.9)',
@@ -133,7 +172,7 @@ module.exports = {
             pointStrokeColor: 'rgba(60,141,188,1)',
             pointHighlightFill: '#fff',
             pointHighlightStroke: 'rgba(60,141,188,1)',
-            data: rataRataJawaban.map(jawaban => parseFloat(jawaban).toFixed(2))
+            data: rataRataJawaban2.map(jawaban => parseFloat(jawaban).toFixed(2))
           }]
         };
 
