@@ -26,7 +26,13 @@ module.exports = {
 
       let semester_year = req.session.semesterYear;
 
+      const semester_now = await queryPromise(connection, `SELECT * from table_semester where semester_id='${semester_year}'`);
       const semesterResults = await queryPromise(connection, `SELECT * from table_semester`);
+      const jurusanResults = await queryPromise(connection, `
+      SELECT table_jurusan.jurusan_name from table_user 
+      JOIN table_kajur ON table_user.user_id = table_kajur.kajur_user
+      JOIN table_jurusan ON table_kajur.kajur_jurusan=table_jurusan.jurusan_id
+      where table_user.user_id='${id}'`);
       const results = await queryPromise(connection, `SELECT * FROM table_user where user_id = '${id}'`);
       const dosenResults = await queryPromise(connection, `SELECT DISTINCT
       table_dosen.dosen_name,
@@ -66,9 +72,10 @@ module.exports = {
       res.render("kajur", {
         url: generateURLWithToken,
         user_name: req.session.username,
+        jurusan_results:jurusanResults,
         chartData: JSON.stringify(chartData),
         semester_semester: semesterResults,
-        semester_year: semester_year,
+        semester_now: semester_now,
         dosen_name: dosenName,
         rata_rata_jawaban: rataRataJawaban
       });
@@ -98,7 +105,13 @@ module.exports = {
           });
         });
 
+        const semester_now = await queryPromise(connection, `SELECT * from table_semester where semester_id='${semester_year}'`);
         const semesterResults = await queryPromise(connection, `SELECT * from table_semester`);
+        const jurusanResults = await queryPromise(connection, `
+        SELECT table_jurusan.jurusan_name from table_user 
+        JOIN table_kajur ON table_user.user_id = table_kajur.kajur_user
+        JOIN table_jurusan ON table_kajur.kajur_jurusan=table_jurusan.jurusan_id
+        where table_user.user_id='${id}'`);
         const results = await queryPromise(connection, `SELECT * FROM table_user where user_id = '${id}'`);
         const dosenResults = await queryPromise(connection, `SELECT DISTINCT
           table_dosen.dosen_name,
@@ -138,8 +151,9 @@ module.exports = {
           user_name: req.session.username,
           chartData: JSON.stringify(chartData),
           semester_semester: semesterResults,
-          semester_year: semester_year,
+          semester_now: semester_now,
           dosen_name: dosenName,
+          jurusan_results:jurusanResults,
           rata_rata_jawaban: rataRataJawaban
         });
 

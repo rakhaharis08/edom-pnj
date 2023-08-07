@@ -11,6 +11,7 @@ module.exports = {
   async kbm(req, res) {
     try {
       const id = req.session.userid;
+      const semester_year = req.session.semesterYear;
       const connection = await new Promise((resolve, reject) => {
         pool.getConnection((err, conn) => {
           if (err) {
@@ -25,6 +26,7 @@ module.exports = {
       const kbmResults = await queryPromise(connection, `
       SELECT 
         prodi_name,
+        kbm_id,
         kelas_semester,
         kelas_subkelas,
         dosen_name,
@@ -35,6 +37,8 @@ module.exports = {
       INNER JOIN table_prodi ON table_prodi.prodi_id = table_kelas.kelas_prodi
       INNER JOIN table_dosen ON table_dosen.dosen_id = table_kbm.kbm_dosen
       INNER JOIN table_matkul ON table_matkul.matkul_id = table_kbm.kbm_matkul
+      WHERE
+      table_kbm.kbm_semester = '${semester_year}'
       ORDER BY table_kelas.kelas_id -- Urutkan berdasarkan kelas_id
     `);
     
@@ -135,6 +139,49 @@ module.exports = {
         }
     
         connection.release();
+      } else {
+        res.redirect("/add-kbm");
+        res.end();
+      }
+    } catch (error) {
+      throw error;
+    }
+  },
+  async hapuskbm(req, res) {
+    try {
+      const kbm = req.query.id;
+      if (kbm) {
+        const connection = await new Promise((resolve, reject) => {
+          pool.getConnection((err, conn) => {
+            if (err) {
+              reject(err);
+            } else {
+              resolve(conn);
+            }
+          });
+        });
+        
+    
+        const kbm_results = await queryPromise(connection, `
+        SELECT * FROM table_kbm
+        JOIN table_matkul ON table_matkul.matkul_id = table_kbm.kbm_matkul
+        JOIN table_kelas ON table_kbm.kbm_kelas = table_kelas.kelas_id
+        JOIN table_user ON table_kelas.kelas_id = table_user.user_kelas
+        JOIN table_answer ON table_user.user_id = table_answer.answer_user AND table_matkul.matkul_id = table_answer.answer_matkul
+        
+        WHERE table_kbm.kbm_id='${kbm}'
+        
+        `);
+        if (kbm_results.length > 0) {
+          // If there are users, do not delete the class
+          connection.release();
+          res.send(`<script>alert('Tidak dapat menghapus KBM karena terdapat penilaian terkait!'); window.location.href = '/kbm';</script>`);
+        } else {
+          // If there are no users, proceed with the class deletion
+          await queryPromise(connection, `DELETE from table_kbm where kbm_id='${kbm}'`);
+          connection.release();
+          res.redirect("/kbm");
+        }
       } else {
         res.redirect("/add-kbm");
         res.end();

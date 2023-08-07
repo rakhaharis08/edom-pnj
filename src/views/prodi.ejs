@@ -15,6 +15,28 @@ scratch. This page gets rid of all links and provides the needed markup only.
   <link rel="stylesheet" href="/plugins/fontawesome-free/css/all.min.css">
   <!-- Theme style -->
   <link rel="stylesheet" href="/dist/css/adminlte.min.css">
+  <style>
+    .pagination {
+      display: flex;
+      justify-content: center;
+      margin-top: 20px;
+    }
+
+    .pagination li {
+      margin: 0 5px;
+      list-style: none;
+      cursor: pointer;
+      padding: 5px 10px;
+      border: 1px solid #ccc;
+      border-radius: 3px;
+    }
+
+    .pagination li.active {
+      background-color: #007bff;
+      color: #fff;
+      border-color: #007bff;
+    }
+  </style>
 </head>
 <body class="hold-transition layout-top-nav">
 <div class="wrapper">
@@ -22,7 +44,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
   <!-- Navbar -->
   <nav class="main-header navbar navbar-expand-md navbar-light navbar-white">
     <div class="container">
-      <a href="/" class="navbar-brand">
+      <a href="/admin" class="navbar-brand">
         <img src="/dist/img/edomlogo.png" alt="AdminLTE Logo" class="brand-image img-circle elevation-3" style="opacity: .8">
         <span class="brand-text font-weight-light">EDOM PNJ v.1.0</span>
       </a>
@@ -33,29 +55,23 @@ scratch. This page gets rid of all links and provides the needed markup only.
 
       <div class="collapse navbar-collapse order-3" id="navbarCollapse">
         <!-- Left navbar links -->
-        <ul class="navbar-nav">
-          <li class="nav-item">
-            <a href="/admin" class="nav-link">Home</a>
-          </li>
-          <li class="nav-item">
-            <a href="/auth-register" class="nav-link">Authentikasi Register</a>
-          </li>
-          <li class="nav-item">
-            <a href="/semester" class="nav-link">Manage Semester</a>
-          </li>
-        </ul>
+          <ul class="navbar-nav">
+            <li class="nav-item">
+              <a href="/admin" class="nav-link">Home</a>
+            </li>
+            <li class="nav-item">
+              <a href="/auth-register" class="nav-link">Authentikasi Register</a>
+            </li>
+            <li class="nav-item">
+              <a href="/semester" class="nav-link">Manage Semester</a>
+            </li>
+            <li class="nav-item">
+              <a href="/matkul" class="nav-link">Manage Matkul</a>
+            </li>
+          </ul>
 
         <!-- SEARCH FORM -->
-        <form class="form-inline ml-0 ml-md-3">
-          <div class="input-group input-group-sm">
-            <input class="form-control form-control-navbar" type="search" placeholder="Search" aria-label="Search">
-            <div class="input-group-append">
-              <button class="btn btn-navbar" type="submit">
-                <i class="fas fa-search"></i>
-              </button>
-            </div>
-          </div>
-        </form>
+
       </div>
       <ul class="order-1 order-md-3 navbar-nav navbar-no-expand ml-auto">
         <li class="nav-item">
@@ -106,18 +122,23 @@ scratch. This page gets rid of all links and provides the needed markup only.
                     <th>No</th>
                     <th>Program Studi</th>
                     <th>Jurusan</th>
+                    <th>Action</th>
                   </tr>
                 </thead>
-                <tbody>
+                <tbody id="prodi-table-body">
                   <% for (let i = 0; i < prodi_prodi.length; i++) { %>
                     <tr>
                       <td><%= i + 1 %></td>
                       <td><%= prodi_prodi[i].prodi_name.toUpperCase()  %></td>
                       <td><%= prodi_prodi[i].jurusan_name.toUpperCase()   %></td>
+                      <td><a href="hapus_prodi?id=<%= prodi_prodi[i].prodi_id %>">Hapus</a></td>
                     </tr>
                   <% } %>
                 </tbody>
               </table>
+              <div class="pagination">
+
+              </div>
               </div>
               <!-- /.card-body -->
             </div>
@@ -162,6 +183,70 @@ scratch. This page gets rid of all links and provides the needed markup only.
 <script src="/dist/js/adminlte.min.js"></script>
 <!-- AdminLTE for demo purposes -->
 <script src="/dist/js/demo.js"></script>
+<script>
+  $(document).ready(function() {
+    // Fungsi untuk melakukan pencarian berdasarkan keyword
+    function performSearch(keyword) {
+      var rows = $("#prodi-table-body tr");
+      rows.hide();
+
+      // Cari setiap baris yang cocok dengan keyword
+      rows.each(function() {
+        var rowText = $(this).text().toLowerCase();
+        if (rowText.indexOf(keyword.toLowerCase()) !== -1) {
+          $(this).show();
+        }
+      });
+    }
+
+    // Handler saat input pencarian berubah (real-time search)
+    $("#search-input").on("input", function() {
+      var keyword = $(this).val();
+      performSearch(keyword);
+    });
+
+    // Handler saat form pencarian di-submit (untuk mobile)
+    $("#search-form-mobile").submit(function(event) {
+      event.preventDefault();
+      var keyword = $("#search-input-mobile").val();
+      performSearch(keyword);
+    });
+
+    // Inisialisasi halaman pertama saat load
+    showPage(1);
+
+    // Fungsi untuk menampilkan data pada halaman tertentu
+    function showPage(pageNumber) {
+      var rows = $("#prodi-table-body tr");
+      var itemsPerPage = 10;
+      var startIndex = (pageNumber - 1) * itemsPerPage;
+      var endIndex = startIndex + itemsPerPage;
+
+      rows.hide();
+      rows.slice(startIndex, endIndex).show();
+
+      // Tampilkan tombol pagination
+      showPagination(Math.ceil(rows.length / itemsPerPage), pageNumber);
+    }
+
+    // Fungsi untuk menampilkan tombol pagination
+    function showPagination(totalPageCount, currentPage) {
+      var pagination = $(".pagination");
+      pagination.empty();
+
+      for (var i = 1; i <= totalPageCount; i++) {
+        var activeClass = (i === currentPage) ? "active" : "";
+        pagination.append("<li class='" + activeClass + "' data-page='" + i + "'>" + i + "</li>");
+      }
+
+      // Tambahkan event click pada setiap tombol pagination
+      pagination.find("li").click(function() {
+        var pageNumber = $(this).data("page");
+        showPage(pageNumber);
+      });
+    }
+  });
+</script>
 <!-- Page specific script -->
 </body>
 </html>

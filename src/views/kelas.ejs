@@ -22,7 +22,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
   <!-- Navbar -->
   <nav class="main-header navbar navbar-expand-md navbar-light navbar-white">
     <div class="container">
-      <a href="/" class="navbar-brand">
+      <a href="/admin" class="navbar-brand">
         <img src="/dist/img/edomlogo.png" alt="AdminLTE Logo" class="brand-image img-circle elevation-3" style="opacity: .8">
         <span class="brand-text font-weight-light">EDOM PNJ v.1.0</span>
       </a>
@@ -33,29 +33,23 @@ scratch. This page gets rid of all links and provides the needed markup only.
 
       <div class="collapse navbar-collapse order-3" id="navbarCollapse">
         <!-- Left navbar links -->
-        <ul class="navbar-nav">
-          <li class="nav-item">
-            <a href="/admin" class="nav-link">Home</a>
-          </li>
-          <li class="nav-item">
-            <a href="/auth-register" class="nav-link">Authentikasi Register</a>
-          </li>
-          <li class="nav-item">
-            <a href="/semester" class="nav-link">Manage Semester</a>
-          </li>
-        </ul>
+          <ul class="navbar-nav">
+            <li class="nav-item">
+              <a href="/admin" class="nav-link">Home</a>
+            </li>
+            <li class="nav-item">
+              <a href="/auth-register" class="nav-link">Authentikasi Register</a>
+            </li>
+            <li class="nav-item">
+              <a href="/semester" class="nav-link">Manage Semester</a>
+            </li>
+            <li class="nav-item">
+              <a href="/matkul" class="nav-link">Manage Matkul</a>
+            </li>
+          </ul>
 
         <!-- SEARCH FORM -->
-        <form class="form-inline ml-0 ml-md-3">
-          <div class="input-group input-group-sm">
-            <input class="form-control form-control-navbar" type="search" placeholder="Search" aria-label="Search">
-            <div class="input-group-append">
-              <button class="btn btn-navbar" type="submit">
-                <i class="fas fa-search"></i>
-              </button>
-            </div>
-          </div>
-        </form>
+
       </div>
       <ul class="order-1 order-md-3 navbar-nav navbar-no-expand ml-auto">
         <li class="nav-item">
@@ -105,6 +99,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
                   <tr>
                     <th>No</th>
                     <th>Nama Kelas</th>
+                    <th>Action</th>
                   </tr>
                 </thead>
                 <tbody>
@@ -112,6 +107,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
                     <tr>
                       <td><%= i + 1 %></td>
                       <td><%= kelas_kelas[i].prodi_name.toUpperCase()  %> <%= kelas_kelas[i].kelas_semester  %><%= kelas_kelas[i].kelas_subkelas.toUpperCase()%></td>
+                      <td><a href="hapus_kelas?id=<%= kelas_kelas[i].kelas_id%>">Hapus</a></td>
                     </tr>
                   <% } %>
                 </tbody>

@@ -40,16 +40,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
         </ul>
 
         <!-- SEARCH FORM -->
-        <form class="form-inline ml-0 ml-md-3">
-          <div class="input-group input-group-sm">
-            <input class="form-control form-control-navbar" type="search" placeholder="Search" aria-label="Search">
-            <div class="input-group-append">
-              <button class="btn btn-navbar" type="submit">
-                <i class="fas fa-search"></i>
-              </button>
-            </div>
-          </div>
-        </form>
+
       </div>
       <ul class="order-1 order-md-3 navbar-nav navbar-no-expand ml-auto">
         <li class="nav-item">
@@ -110,7 +101,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
                   <tbody>
                     <% for (let i = 0; i < dosen_name.length; i++) { %>
                       <tr>
-                        <td>1</td>
+                        <td><%= i+1 %></td>
                         <td><%= dosen_name[i].matkul_name.toUpperCase() %></td>
                         <% for (let i = 0; i < semester_semester.length; i++) { %>
                           <td><%= semester_semester[i].semester_year.toUpperCase()  %></td>

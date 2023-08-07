@@ -95,9 +95,8 @@ scratch. This page gets rid of all links and provides the needed markup only.
 							 alt="User profile picture">
 					  </div>
 	  
-					  <h3 class="profile-username text-center"><%= dosen_name %></h3>
 	  
-					  <p class="text-muted text-center">DOSEN</p>
+					  <p class="text-muted text-center"><%= user_name.toUpperCase() %></p>
 	  
 					  <ul class="list-group list-group-unbordered mb-3">
 						<li class="list-group-item">
@@ -134,7 +133,11 @@ scratch. This page gets rid of all links and provides the needed markup only.
 				<div class="col-md-9">
 				  <div class="card card-primary">
 					<div class="card-header">
-					  <h3 class="card-title">Hasil Penilaian <%= semester_year %> 	
+					  <h3 class="card-title">Hasil Penilaian 
+						<% for (let i = 0; i < semester_now.length; i++) { %>
+						  <% let semesterType = semester_now[i].semester_gage == 1 ? 'Ganjil' : 'Genap'; %>
+						<%= semester_now[i].semester_year %> <%= semesterType %>
+						<% } %>
 						  </h3>
 						  
 	  
@@ -176,12 +179,23 @@ scratch. This page gets rid of all links and provides the needed markup only.
 							<td><%= question_question[i].question_question %></td>
 							<td>
 							  <div class="progress progress-xs">
-								<div class="progress-bar progress-bar-danger" style="width: <%= (averages[i] / 5) * 100 %>%;"></div>
+								<div class="progress-bar progress-bar-danger" style="width: <%= (averages[i] / 5) * 100 %>%"></div>
 							  </div>
 							</td>
-							<td><span class="badge bg-danger"><%= Math.round((averages[i] / 5) * 100) %>%</span></td>
+							<td><span class="badge bg-success"><%= Math.round((averages[i] / 5) * 100) %>%</span></td>
 						  </tr>
 						<% } %>
+						<tr>
+							<td colspan="2" align="right">Rata Rata Penilaian Anda Secara Keseluruhan</td>
+								<% for (let i = 0; i < total_total.length; i++) { %>
+									<td>
+									  <div class="progress progress-xs">
+										<div class="progress-bar progress-bar-danger" style="width: <%= Math.round(total_total[i].rata_rata_total) %>%"></div>
+									  </div>
+									</td>
+									<td><span class="badge bg-success"><%= Math.round(total_total[i].rata_rata_total) %>%</span></td>
+								<% } %>
+						</tr>
 						</tbody>
 					  </table>
 					</div>
@@ -242,7 +256,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
 		var barChartCanvas = $('#barChart').get(0).getContext('2d');
 		var barChartData = {
   			labels: [
-    			'Pertanyaan', 'Pertanyaan 1', 'Pertanyaan 2', 'Pertanyaan 3', 'Pertanyaan 4', 'Pertanyaan 5',
+    			'Pertanyaan 1', 'Pertanyaan 2', 'Pertanyaan 3', 'Pertanyaan 4', 'Pertanyaan 5',
     			'Pertanyaan 6', 'Pertanyaan 7', 'Pertanyaan 8', 'Pertanyaan 9', 'Pertanyaan 10', 'Pertanyaan 11',
     			'Pertanyaan 12', 'Pertanyaan 13', 'Pertanyaan 14', 'Pertanyaan 15', 'Pertanyaan 16', 'Pertanyaan 17',
     			'Pertanyaan 18', 'Pertanyaan 19', 'Pertanyaan 20', 'Pertanyaan 21', 'Pertanyaan 22', 'Pertanyaan 23',

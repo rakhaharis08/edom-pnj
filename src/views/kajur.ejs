@@ -38,17 +38,6 @@
 					<a href="kajur" class="nav-link">Home</a>
 					</li>
 		
-				<!-- SEARCH FORM -->
-				<form class="form-inline ml-0 ml-md-3">
-					<div class="input-group input-group-sm">
-					<input class="form-control form-control-navbar" type="search" placeholder="Search" aria-label="Search">
-					<div class="input-group-append">
-						<button class="btn btn-navbar" type="submit">
-						<i class="fas fa-search"></i>
-						</button>
-					</div>
-					</div>
-				</form>
 				</div>
 				<ul class="order-1 order-md-3 navbar-nav navbar-no-expand ml-auto">
 					<li class="nav-item">
@@ -97,7 +86,12 @@
 		
 						<h3 class="profile-username text-center"><%= user_name %></h3>
 		
-						<p class="text-muted text-center">KETUA JURUSAN TEKNIK INFORMATIKA & KOMPUTER</p>
+						<p class="text-muted text-center">KETUA JURUSAN 
+							<% for (let i = 0; i < jurusan_results.length; i++) { %>
+								<%= jurusan_results[i].jurusan_name.toUpperCase() %> 
+							   <% } %>
+							 </p>
+						</p>
 		
 						<ul class="list-group list-group-unbordered mb-3">
 							<li class="list-group-item">
@@ -136,7 +130,12 @@
 					<div class="col-md-9">
 					<div class="card card-primary">
 						<div class="card-header">
-						<h3 class="card-title">Hasil Penilaian Rata-Rata per Prodi di Jurusan Teknik Informatika dan Komputer</h3>
+						<h3 class="card-title">Hasil Penilaian Rata-Rata per Prodi di Jurusan Teknik Informatika dan Komputer
+							<% for (let i = 0; i < semester_now.length; i++) { %>
+							  <% let semesterType = semester_now[i].semester_gage == 1 ? 'Ganjil' : 'Genap'; %>
+							  <%= semester_now[i].semester_year %> <%= semesterType %>
+							<% } %>
+						</h3>
 		
 		
 						<div class="card-tools">

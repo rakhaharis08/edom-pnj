@@ -22,7 +22,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
   <!-- Navbar -->
   <nav class="main-header navbar navbar-expand-md navbar-light navbar-white">
     <div class="container">
-      <a href="/admin" class="navbar-brand">
+      <a href="/" class="navbar-brand">
         <img src="/dist/img/edomlogo.png" alt="AdminLTE Logo" class="brand-image img-circle elevation-3" style="opacity: .8">
         <span class="brand-text font-weight-light">EDOM PNJ v.1.0</span>
       </a>
@@ -33,22 +33,6 @@ scratch. This page gets rid of all links and provides the needed markup only.
 
       <div class="collapse navbar-collapse order-3" id="navbarCollapse">
         <!-- Left navbar links -->
-          <ul class="navbar-nav">
-            <li class="nav-item">
-              <a href="/admin" class="nav-link">Home</a>
-            </li>
-            <li class="nav-item">
-              <a href="/auth-register" class="nav-link">Authentikasi Register</a>
-            </li>
-            <li class="nav-item">
-              <a href="/semester" class="nav-link">Manage Semester</a>
-            </li>
-            <li class="nav-item">
-              <a href="/matkul" class="nav-link">Manage Matkul</a>
-            </li>
-          </ul>
-
-        <!-- SEARCH FORM -->
 
       </div>
       <ul class="order-1 order-md-3 navbar-nav navbar-no-expand ml-auto">
@@ -89,32 +73,25 @@ scratch. This page gets rid of all links and provides the needed markup only.
           <div class="col-12">
             <div class="card">
               <div class="card-header">
-                <h3 class="card-title">Jurusan</h3>
+                <h3 class="card-title">Unauthorized Access</h3>
               </div>
               <!-- /.card-header -->
               <div class="card-body">
-                <a href="add-jurusan">+Tambah</a>
-              <table id="example2" class="table table-bordered table-hover">
-                <thead>
-                  <tr>
-                    <th>Jurusan</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  <form action="<%= url %>add-jurusan/savejurusan" method="POST">
-                    <tr>
-                      <td>
-                        <input type="text" name="jurusan" placeholder="Masukkan Nama Jurusan" class="form-control">
-                      </td>
-                    </tr>
-                    <tr>
-                      <td>
-                        <input type="submit" class="form-control btn btn-primary">
-                      </td>
-                    </tr>
-                  </form>
-                </tbody>
-              </table>
+                Maaf anda tidak memiliki hak untuk mengakses halaman ini. 
+                
+                <% for (let i = 0; i < user_role.length; i++) { %>
+                  <% if (user_role[i].user_role.toUpperCase() == 'MAHASISWA') { %>
+                      <a href="/">Kembali Ke Home</a>
+                  <% } else if (user_role[i].user_role.toUpperCase() == 'DOSEN') { %>
+                      <a href="/dosen">Kembali Ke Home</a>
+                  <% } else if (user_role[i].user_role.toUpperCase() == 'KAPRODI') { %>
+                      <a href="/kaprodi">Kembali Ke Home</a>
+                  <% } else if (user_role[i].user_role.toUpperCase() == 'KAJUR') { %>
+                      <a href="/kajur">Kembali Ke Home</a>
+                  <% } else if (user_role[i].user_role.toUpperCase() == 'ADMIN') { %>
+                      <a href="/admin">Kembali Ke Home</a>
+                  <% } %>
+              <% } %>
               </div>
               <!-- /.card-body -->
             </div>

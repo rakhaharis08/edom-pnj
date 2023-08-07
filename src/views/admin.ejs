@@ -48,19 +48,13 @@ scratch. This page gets rid of all links and provides the needed markup only.
             <li class="nav-item">
               <a href="/semester" class="nav-link">Manage Semester</a>
             </li>
+            <li class="nav-item">
+              <a href="/matkul" class="nav-link">Manage Matkul</a>
+            </li>
           </ul>
 
           <!-- SEARCH FORM -->
-          <form class="form-inline ml-0 ml-md-3">
-            <div class="input-group input-group-sm">
-              <input class="form-control form-control-navbar" type="search" placeholder="Search" aria-label="Search">
-              <div class="input-group-append">
-                <button class="btn btn-navbar" type="submit">
-                  <i class="fas fa-search"></i>
-                </button>
-              </div>
-            </div>
-          </form>
+
         </div>
         
       <ul class="order-1 order-md-3 navbar-nav navbar-no-expand ml-auto">
@@ -240,7 +234,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
 		var barChartCanvas = $('#barChart').get(0).getContext('2d');
 		var barChartData = {
   			labels: [
-    			'Pertanyaan', 'Pertanyaan 1', 'Pertanyaan 2', 'Pertanyaan 3', 'Pertanyaan 4', 'Pertanyaan 5',
+    			'Pertanyaan 1', 'Pertanyaan 2', 'Pertanyaan 3', 'Pertanyaan 4', 'Pertanyaan 5',
     			'Pertanyaan 6', 'Pertanyaan 7', 'Pertanyaan 8', 'Pertanyaan 9', 'Pertanyaan 10', 'Pertanyaan 11',
     			'Pertanyaan 12', 'Pertanyaan 13', 'Pertanyaan 14', 'Pertanyaan 15', 'Pertanyaan 16', 'Pertanyaan 17',
     			'Pertanyaan 18', 'Pertanyaan 19', 'Pertanyaan 20', 'Pertanyaan 21', 'Pertanyaan 22', 'Pertanyaan 23',
@@ -255,11 +249,19 @@ scratch. This page gets rid of all links and provides the needed markup only.
     		pointStrokeColor: 'rgba(60,141,188,1)',
     		pointHighlightFill: '#fff',
     		pointHighlightStroke: 'rgba(60,141,188,1)',
-   			data: ['1','1','1','1','1','1','1','1','1','1','1','1','1','1','1','1','1','1','1','1','1','1','1','1','1','1','1','1'
+   			data: [
+      			<%= averageData.q1 %>, <%= averageData.q2 %>, <%= averageData.q3 %>, <%= averageData.q4 %>,
+      			<%= averageData.q5 %>, <%= averageData.q6 %>, <%= averageData.q7 %>, <%= averageData.q8 %>,
+      			<%= averageData.q9 %>, <%= averageData.q10 %>, <%= averageData.q11 %>, <%= averageData.q12 %>,
+    			  <%= averageData.q13 %>, <%= averageData.q14 %>, <%= averageData.q15 %>, <%= averageData.q16 %>,
+      			<%= averageData.q17 %>, <%= averageData.q18 %>, <%= averageData.q19 %>, <%= averageData.q20 %>,
+      			<%= averageData.q21 %>, <%= averageData.q22 %>, <%= averageData.q23 %>, <%= averageData.q24 %>,
+      			<%= averageData.q25 %>, <%= averageData.q26 %>, <%= averageData.q27 %>, '1'
     		]
+        
   			}]
-};
-
+  };
+    
 		  var barChartOptions = {
 			responsive              : true,
 			maintainAspectRatio     : false,

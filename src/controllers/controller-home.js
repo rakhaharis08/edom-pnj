@@ -1,21 +1,29 @@
 const config = require('../configs/database');
+const mysql = require('mysql');
 
-let mysql      = require('mysql');
-let pool       = mysql.createPool(config);
+const pool = mysql.createPool(config);
 
-pool.on('error',(err)=> {
-    console.error(err);
+pool.on('error', (err) => {
+  console.error(err);
 });
 
-module.exports ={
-    home(req, res) {
-        let id = req.session.userid;
-        let semester_year = req.session.semesterYear;
+module.exports = {
+  async home(req, res) {
+    try {
+        const id = req.session.userid;
+        const semester_year = req.session.semesterYear;
       
-        pool.getConnection(function (err, connection) {
-          if (err) throw err;
-          connection.query(
-            `SELECT 
+      const connection = await new Promise((resolve, reject) => {
+        pool.getConnection((err, conn) => {
+          if (err) {
+            reject(err);
+          } else {
+            resolve(conn);
+          }
+        });
+      });
+      const results = await queryPromise(connection, `
+      SELECT 
               dosen_id, 
               dosen_name, 
               matkul_name,
@@ -48,24 +56,112 @@ module.exports ={
               dosen_name,
               matkul_name,
               matkul_id;
-            `
-            , function (error, results) {
-              if (error) throw error;
-              res.render("home", {
-                url: 'http://localhost:5050/',
-                userName: req.session.username,
-                userid: req.session.userid,
-                semesterYear: req.session.semesterYear,
-                semesterGage: req.session.semesterGage,
-                dosen_name: results, // Change the key to dosen_names and assign the entire results object
-                dosen_id: results, // Change the key to dosen_names and assign the entire results object
-                answer_count: results,
-                matkul_name: results,
-                kelas_name: results,
-                matkul_id: results,
-              });
-            });
-          connection.release();
-        })
+      `);
+
+      res.render("home", {
+        url: 'http://localhost:5050/',
+        userName: req.session.username,
+        userid: id,
+        semesterYear: req.session.semesterYear,
+        semesterGage: req.session.semesterGage,
+        dosen_name: results, // Change the key to dosen_names and assign the entire results object
+        dosen_id: results, // Change the key to dosen_names and assign the entire results object
+        answer_count: results,
+        matkul_name: results,
+        kelas_name: results,
+        matkul_id: results,
+      });
+
+      connection.release();
+    } catch (error) {
+      throw error;
+    }
+  }, 
+  async unauthorized(req, res) {
+    try {
+        const id = req.session.userid;
+      
+      const connection = await new Promise((resolve, reject) => {
+        pool.getConnection((err, conn) => {
+          if (err) {
+            reject(err);
+          } else {
+            resolve(conn);
+          }
+        });
+      });
+      const results = await queryPromise(connection, `SELECT user_role from table_user where user_id='${id}'`);
+
+      res.render("unauthorized", {
+        url: 'http://localhost:5050/',
+        user_role: results,
+      });
+
+      connection.release();
+    } catch (error) {
+      throw error;
+    }
+  },
+  async noresults(req, res) {
+    try {
+        const id = req.session.userid;
+      
+      const connection = await new Promise((resolve, reject) => {
+        pool.getConnection((err, conn) => {
+          if (err) {
+            reject(err);
+          } else {
+            resolve(conn);
+          }
+        });
+      });
+      const results = await queryPromise(connection, `SELECT user_role from table_user where user_id='${id}'`);
+
+      res.render("noresults", {
+        url: 'http://localhost:5050/',
+        user_role: results,
+      });
+
+      connection.release();
+    } catch (error) {
+      throw error;
+    }
+  },
+  async notcompleted(req, res) {
+    try {
+        const id = req.session.userid;
+      
+      const connection = await new Promise((resolve, reject) => {
+        pool.getConnection((err, conn) => {
+          if (err) {
+            reject(err);
+          } else {
+            resolve(conn);
+          }
+        });
+      });
+      const results = await queryPromise(connection, `SELECT user_role from table_user where user_id='${id}'`);
+
+      res.render("notcompleted", {
+        url: 'http://localhost:5050/',
+        user_role: results,
+      });
+
+      connection.release();
+    } catch (error) {
+      throw error;
+    }
+  },
+};
+
+function queryPromise(connection, sql) {
+  return new Promise((resolve, reject) => {
+    connection.query(sql, (error, results) => {
+      if (error) {
+        reject(error);
+      } else {
+        resolve(results);
       }
+    });
+  });
 }

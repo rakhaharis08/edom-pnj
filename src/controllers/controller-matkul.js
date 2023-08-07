@@ -8,54 +8,7 @@ pool.on('error', (err) => {
 });
 
 module.exports = {
-  async kelas(req, res) {
-    try {
-      const id = req.session.userid;
-      const connection = await new Promise((resolve, reject) => {
-        pool.getConnection((err, conn) => {
-          if (err) {
-            reject(err);
-          } else {
-            resolve(conn);
-          }
-        });
-      });
-  
-      const results = await queryPromise(connection, `SELECT * FROM table_user WHERE user_id = '${id}'`);
-      const kelasResults = await queryPromise(connection, `
-        SELECT table_kelas.*, table_prodi.prodi_name
-        FROM table_kelas
-        JOIN table_prodi ON table_kelas.kelas_prodi = table_prodi.prodi_id
-      `);
-  
-      // Modifikasi data kelasResults untuk menampilkan singkatan huruf depan prodi_name
-      const modifiedKelasResults = kelasResults.map((kelas) => {
-        const prodiName = kelas.prodi_name;
-        const prodiNameAbbreviated = prodiName
-          .split(' ')
-          .map((word) => word.charAt(0)) // Mengambil karakter pertama dari setiap kata
-          .join(''); // Menggabungkan singkatan huruf depan menjadi satu kata
-        return {
-          ...kelas,
-          prodi_name: prodiNameAbbreviated,
-        };
-      });
-  
-      res.render("kelas", {
-        url: 'http://localhost:5050/',
-        userName: req.session.username,
-        nama: results[0]['user_name'],
-        email: results[0]['user_email'],
-        kelas_kelas: modifiedKelasResults,
-      });
-  
-      connection.release();
-    } catch (error) {
-      throw error;
-    }
-  },
-  
-  async addkelas(req, res) {
+  async matkul(req, res) {
     try {
       const id = req.session.userid;
       const connection = await new Promise((resolve, reject) => {
@@ -69,16 +22,14 @@ module.exports = {
       });
 
       const results = await queryPromise(connection, `SELECT * FROM table_user WHERE user_id = '${id}'`);
-      const prodiResults = await queryPromise(connection, `
-      SELECT prodi_id, prodi_name FROM table_prodi
-    `);
+      const matkul_results = await queryPromise(connection, `SELECT * from table_matkul`);
 
-      res.render("addKelas", {
+      res.render("matkul", {
         url: 'http://localhost:5050/',
         userName: req.session.username,
         nama: results[0]['user_name'],
         email: results[0]['user_email'],
-        prodi_prodi  : prodiResults,
+        matkul_matkul: matkul_results
       });
 
       connection.release();
@@ -86,13 +37,38 @@ module.exports = {
       throw error;
     }
   },
-  async savekelas(req, res) {
+  async addmatkul(req, res) {
     try {
-      const prodi = req.body.prodi;
-      const semester = req.body.semester;
-      const subkelas = req.body.subkelas;
-  
-      if (prodi) {
+      const id = req.session.userid;
+      const connection = await new Promise((resolve, reject) => {
+        pool.getConnection((err, conn) => {
+          if (err) {
+            reject(err);
+          } else {
+            resolve(conn);
+          }
+        });
+      });
+
+      const results = await queryPromise(connection, `SELECT * FROM table_user WHERE user_id = '${id}'`);
+
+      res.render("addMatkul", {
+        url: 'http://localhost:5050/',
+        userName: req.session.username,
+        nama: results[0]['user_name'],
+        email: results[0]['user_email'],
+      });
+
+      connection.release();
+    } catch (error) {
+      throw error;
+    }
+  },
+  async savematkul(req, res) {
+    try {
+      const matkul = req.body.matkul;
+      
+      if (matkul) {
         const connection = await new Promise((resolve, reject) => {
           pool.getConnection((err, conn) => {
             if (err) {
@@ -102,23 +78,23 @@ module.exports = {
             }
           });
         });
-  
-        await queryPromise(connection, "INSERT INTO table_kelas (kelas_semester, kelas_subkelas, kelas_prodi) VALUES (?,?,?)", [semester, subkelas, prodi]);
-  
+        await queryPromise(connection, "INSERT INTO table_matkul (matkul_name) VALUES (?)", [matkul]);
+
+        res.redirect("/matkul");
+
         connection.release();
-        res.redirect("/kelas");
       } else {
-        res.redirect("/add-kelas");
+        res.redirect("/add-matkul");
         res.end();
       }
     } catch (error) {
       throw error;
     }
   },
-  async hapuskelas(req, res) {
+  async hapusmatkul(req, res) {
     try {
-      const kelas = req.query.id;
-      if (kelas) {
+      const matkul = req.query.id;
+      if (matkul) {
         const connection = await new Promise((resolve, reject) => {
           pool.getConnection((err, conn) => {
             if (err) {
@@ -130,19 +106,19 @@ module.exports = {
         });
         
     
-        const kelas_results = await queryPromise(connection, `SELECT * FROM table_user WHERE user_kelas = '${kelas}'`);
-        if (kelas_results.length > 0) {
+        const matkul_results = await queryPromise(connection, `SELECT * FROM table_kbm WHERE kbm_matkul = '${matkul}'`);
+        if (matkul_results.length > 0) {
           // If there are users, do not delete the class
           connection.release();
-          res.send(`<script>alert('Tidak dapat menghapus kelas karena terdapat pengguna terkait!'); window.location.href = '/kelas';</script>`);
+          res.send(`<script>alert('Tidak dapat menghapus matkul karena terdapat kbm terkait!'); window.location.href = '/matkul';</script>`);
         } else {
           // If there are no users, proceed with the class deletion
-          await queryPromise(connection, `DELETE from table_kelas where kelas_id='${kelas}'`);
+          await queryPromise(connection, `DELETE from table_matkul where matkul_id='${matkul}'`);
           connection.release();
-          res.redirect("/kelas");
+          res.redirect("/matkul");
         }
       } else {
-        res.redirect("/add-kelas");
+        res.redirect("/add-matkul");
         res.end();
       }
     } catch (error) {

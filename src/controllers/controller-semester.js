@@ -172,6 +172,11 @@ module.exports = {
           );
         });        
 
+
+        const sesion_semester = await queryPromise(connection, `SELECT * FROM table_semester WHERE semester_status = 1`); 
+        const semesterYear = sesion_semester[0].semester_id;
+        req.session.semesterYear = semesterYear;
+        
         res.redirect("/semester");
   
         connection.release();
@@ -179,6 +184,8 @@ module.exports = {
         res.redirect("/semester");
         res.end();
       }
+
+
     } catch (error) {
       throw error;
     }

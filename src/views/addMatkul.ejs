@@ -1,4 +1,8 @@
 <!DOCTYPE html>
+<!--
+This is a starter template page. Use this page to start your new project from
+scratch. This page gets rid of all links and provides the needed markup only.
+-->
 <html lang="en">
 <head>
   <meta charset="utf-8">
@@ -11,33 +15,9 @@
   <link rel="stylesheet" href="/plugins/fontawesome-free/css/all.min.css">
   <!-- Theme style -->
   <link rel="stylesheet" href="/dist/css/adminlte.min.css">
-
-  <!-- Pagination CSS -->
-  <style>
-    .pagination {
-      display: flex;
-      justify-content: center;
-      margin-top: 20px;
-    }
-
-    .pagination li {
-      margin: 0 5px;
-      list-style: none;
-      cursor: pointer;
-      padding: 5px 10px;
-      border: 1px solid #ccc;
-      border-radius: 3px;
-    }
-
-    .pagination li.active {
-      background-color: #007bff;
-      color: #fff;
-      border-color: #007bff;
-    }
-  </style>
 </head>
 <body class="hold-transition layout-top-nav">
-  <div class="wrapper">
+<div class="wrapper">
 
   <!-- Navbar -->
   <nav class="main-header navbar navbar-expand-md navbar-light navbar-white">
@@ -109,48 +89,32 @@
           <div class="col-12">
             <div class="card">
               <div class="card-header">
-                <h3 class="card-title">KBM</h3>
+                <h3 class="card-title">Jurusan</h3>
               </div>
               <!-- /.card-header -->
               <div class="card-body">
-                <a href="add-kbm ">+Tambah</a><br><br>
-                
-                <form class="form-inline ml-0 ml-md-3" id="search-form">
-                  <div class="input-group input-group-sm">
-                    <input class="form-control form-control-navbar" type="search" placeholder="Search" aria-label="Search" id="search-input">
-                    <div class="input-group-append">
-                      <button class="btn btn-navbar" type="submit">
-                        <i class="fas fa-search"></i>
-                      </button>
-                    </div>
-                  </div>
-                </form>
-                <br>
+                <a href="add-jurusan">+Tambah</a>
               <table id="example2" class="table table-bordered table-hover">
                 <thead>
                   <tr>
-                    <th>No</th>
-                    <th>Kelas</th>
-                    <th>Dosen</th>
                     <th>Matkul</th>
-                    <th>Action</th>
                   </tr>
                 </thead>
-                <tbody id="kbm-table-body">
-                  <% for (let i = 0; i < kbm_kbm.length; i++) { %>
+                <tbody>
+                  <form action="<%= url %>add-matkul/savematkul" method="POST">
                     <tr>
-                      <td><%= i + 1 %></td>
-                      <td><%= kbm_kbm[i].prodi_name.toUpperCase()  %> <%= kbm_kbm[i].kelas_semester  %><%= kbm_kbm[i].kelas_subkelas.toUpperCase()  %></td>
-                      <td><%= kbm_kbm[i].dosen_name.toUpperCase()   %></td>
-                      <td><%= kbm_kbm[i].matkul_name.toUpperCase()   %></td>
-                      <td><a href="hapus_kbm?id=<%= kbm_kbm[i].kbm_id %>">Hapus</a></td>
+                      <td>
+                        <input type="text" name="matkul" placeholder="Masukkan Nama Matkul" class="form-control">
+                      </td>
                     </tr>
-                  <% } %>
+                    <tr>
+                      <td>
+                        <input type="submit" class="form-control btn btn-primary">
+                      </td>
+                    </tr>
+                  </form>
                 </tbody>
               </table>
-              <div class="pagination">
-                <!-- Pagination buttons will be added here dynamically by JavaScript -->
-              </div>
               </div>
               <!-- /.card-body -->
             </div>
@@ -183,75 +147,18 @@
 <!-- ./wrapper -->
 
 <!-- REQUIRED SCRIPTS -->
+
+<!-- jQuery -->
+<!-- jQuery -->
 <script src="/plugins/jquery/jquery.min.js"></script>
+<!-- Bootstrap 4 -->
 <script src="/plugins/bootstrap/js/bootstrap.bundle.min.js"></script>
+<!-- ChartJS -->
 <script src="/plugins/chart.js/Chart.min.js"></script>
+<!-- AdminLTE App -->
 <script src="/dist/js/adminlte.min.js"></script>
+<!-- AdminLTE for demo purposes -->
 <script src="/dist/js/demo.js"></script>
-<script>
-  $(document).ready(function() {
-    // Fungsi untuk melakukan pencarian berdasarkan keyword
-    function performSearch(keyword) {
-      var rows = $("#kbm-table-body tr");
-      rows.hide();
-
-      // Cari setiap baris yang cocok dengan keyword
-      rows.each(function() {
-        var rowText = $(this).text().toLowerCase();
-        if (rowText.indexOf(keyword.toLowerCase()) !== -1) {
-          $(this).show();
-        }
-      });
-    }
-
-    // Handler saat input pencarian berubah (real-time search)
-    $("#search-input").on("input", function() {
-      var keyword = $(this).val();
-      performSearch(keyword);
-    });
-
-    // Handler saat form pencarian di-submit (untuk mobile)
-    $("#search-form-mobile").submit(function(event) {
-      event.preventDefault();
-      var keyword = $("#search-input-mobile").val();
-      performSearch(keyword);
-    });
-
-    // Inisialisasi halaman pertama saat load
-    showPage(1);
-
-    // Fungsi untuk menampilkan data pada halaman tertentu
-    function showPage(pageNumber) {
-      var rows = $("#kbm-table-body tr");
-      var itemsPerPage = 10;
-      var startIndex = (pageNumber - 1) * itemsPerPage;
-      var endIndex = startIndex + itemsPerPage;
-
-      rows.hide();
-      rows.slice(startIndex, endIndex).show();
-
-      // Tampilkan tombol pagination
-      showPagination(Math.ceil(rows.length / itemsPerPage), pageNumber);
-    }
-
-    // Fungsi untuk menampilkan tombol pagination
-    function showPagination(totalPageCount, currentPage) {
-      var pagination = $(".pagination");
-      pagination.empty();
-
-      for (var i = 1; i <= totalPageCount; i++) {
-        var activeClass = (i === currentPage) ? "active" : "";
-        pagination.append("<li class='" + activeClass + "' data-page='" + i + "'>" + i + "</li>");
-      }
-
-      // Tambahkan event click pada setiap tombol pagination
-      pagination.find("li").click(function() {
-        var pageNumber = $(this).data("page");
-        showPage(pageNumber);
-      });
-    }
-  });
-</script>
 <!-- Page specific script -->
 </body>
 </html>

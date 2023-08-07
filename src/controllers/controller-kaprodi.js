@@ -25,7 +25,12 @@ module.exports = {
       });
 
       let semester_year = req.session.semesterYear;
-
+      const semester_now = await queryPromise(connection, `SELECT * from table_semester where semester_id='${semester_year}'`);
+      const prodiResults = await queryPromise(connection, `
+      SELECT table_prodi.prodi_name from table_user 
+      JOIN table_kaprodi ON table_user.user_id = table_kaprodi.kaprodi_user
+      JOIN table_prodi ON table_kaprodi.kaprodi_prodi=table_prodi.prodi_id
+      where table_user.user_id='${id}'`);
       const semesterResults = await queryPromise(connection, `SELECT * from table_semester`);
       const results = await queryPromise(connection, `SELECT * FROM table_user where user_id = '${id}'`);
       const kelasResults = await queryPromise(connection, `
@@ -89,7 +94,8 @@ module.exports = {
         user_name: req.session.username,
         chartData: JSON.stringify(chartData), // Mengirim data grafik ke views
         kelasResults: kelasResults,
-        semester_year: semester_year,
+        semester_now: semester_now,
+        prodi_name : prodiResults,
         semester_semester: semesterResults,
         kelas_prodi: kelasResults.map(result => result.kelas_prodi),
         rata_rata_jawaban: rataRataJawaban
@@ -119,8 +125,14 @@ module.exports = {
             }
           });
         });
-
+        
+        const prodiResults = await queryPromise(connection, `
+        SELECT table_prodi.prodi_name from table_user 
+        JOIN table_kaprodi ON table_user.user_id = table_kaprodi.kaprodi_user
+        JOIN table_prodi ON table_kaprodi.kaprodi_prodi=table_prodi.prodi_id
+        where table_user.user_id='${id}'`);
         const semesterResults = await queryPromise(connection, `SELECT * from table_semester`);
+        const semester_now = await queryPromise(connection, `SELECT * from table_semester where semester_id='${semester_year}'`);
         const results = await queryPromise(connection, `SELECT * FROM table_user where user_id = '${id}'`);
         const kelasResults = await queryPromise(connection, `SELECT
           CONCAT(table_prodi.prodi_name, '-', table_kelas.kelas_semester, '-', table_kelas.kelas_subkelas) AS kelas_name,
@@ -141,7 +153,7 @@ module.exports = {
   
         const rataRataJawaban = kelasResults.map((result) => result.rata_rata_jawaban);
   
-        const kelasResults2 = await queryPromise(connection, `SELECT
+        const kelasResults2 = await queryPromise(connection, `
         SELECT
         CONCAT(table_prodi.prodi_name, '-', table_kelas.kelas_semester, '-', table_kelas.kelas_subkelas) AS kelas_name,
         AVG((table_answer.q1+table_answer.q2+table_answer.q3+table_answer.q4+table_answer.q5+table_answer.q6+table_answer.q7+table_answer.q8+table_answer.q9+table_answer.q10+table_answer.q11+table_answer.q12+table_answer.q13+table_answer.q14+table_answer.q15+table_answer.q16+table_answer.q17+table_answer.q18+table_answer.q19+table_answer.q20+table_answer.q21+table_answer.q22+table_answer.q23+table_answer.q24+table_answer.q25+table_answer.q26+table_answer.q27)/27*20) AS rata_rata_jawaban
@@ -156,7 +168,7 @@ module.exports = {
               table_answer.answer_semester ='${semester_year}'
         GROUP BY
             table_kelas.kelas_id
-        kelas_name`);
+      `);
   
         const kelasName2 = kelasResults2.map((result) => result.kelas_name);
         const rataRataJawaban2 = kelasResults2.map((result) => result.rata_rata_jawaban);
@@ -178,14 +190,19 @@ module.exports = {
 
         res.render("kaprodi", {
           url: generateURLWithToken,
+          userid: req.session.userid,
           user_name: req.session.username,
+          prodi_name:prodiResults,
           chartData: JSON.stringify(chartData), // Mengirim data grafik ke views
           kelasResults: kelasResults,
           semester_semester: semesterResults,
-          semester_year: semester_year,
+          semester_now: semester_now,
           kelas_prodi: kelasResults.map(result => result.kelas_prodi),
-          rata_rata_jawaban: rataRataJawaban
+          rata_rata_jawaban: rataRataJawaban,
+          
+
         });
+        
 
         connection.release();
       } catch (error) {
@@ -210,10 +227,11 @@ function queryPromise(connection, sql) {
   });
 }
 
-function generateURLWithToken(semester_year) {
-  const token = jwt.sign({ semester_year }, secretKey);
+function generateURLWithToken(semester_year, id) {
+  const token = jwt.sign({ semester_year, id }, secretKey);
   return `http://localhost:5050/kaprodi_semester?token=${token}`;
 }
+
 
 function generateSecretKey() {
   return crypto.randomBytes(32).toString('hex');

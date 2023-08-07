@@ -22,7 +22,7 @@ module.exports = {
       });
 
       const results = await queryPromise(connection, `SELECT * FROM table_user WHERE user_id = '${id}'`);
-      const prodiResults = await queryPromise(connection, `SELECT prodi_name, jurusan_name FROM table_prodi JOIN table_jurusan ON table_prodi.prodi_jurusan = table_jurusan.jurusan_id`);
+      const prodiResults = await queryPromise(connection, `SELECT prodi_id,prodi_name, jurusan_name FROM table_prodi JOIN table_jurusan ON table_prodi.prodi_jurusan = table_jurusan.jurusan_id`);
 
       res.render("prodi", {
         url: 'http://localhost:5050/',
@@ -89,6 +89,40 @@ module.exports = {
         connection.release();
       } else {
         res.redirect("/addd-prodi");
+        res.end();
+      }
+    } catch (error) {
+      throw error;
+    }
+  },
+  async hapusprodi(req, res) {
+    try {
+      const prodi = req.query.id;
+      if (prodi) {
+        const connection = await new Promise((resolve, reject) => {
+          pool.getConnection((err, conn) => {
+            if (err) {
+              reject(err);
+            } else {
+              resolve(conn);
+            }
+          });
+        });
+        
+    
+        const prodi_results = await queryPromise(connection, `SELECT * FROM table_kelas WHERE kelas_prodi = '${prodi}'`);
+        if (prodi_results.length > 0) {
+          // If there are users, do not delete the class
+          connection.release();
+          res.send(`<script>alert('Tidak dapat menghapus prodi karena terdapat kelas terkait!'); window.location.href = '/prodi';</script>`);
+        } else {
+          // If there are no users, proceed with the class deletion
+          await queryPromise(connection, `DELETE from table_prodi where prodi_id='${prodi}'`);
+          connection.release();
+          res.redirect("/prodi");
+        }
+      } else {
+        res.redirect("/add-prodi");
         res.end();
       }
     } catch (error) {

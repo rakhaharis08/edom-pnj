@@ -80,7 +80,7 @@ module.exports ={
               if (jumlahKBM === jumlahDosenDinilai) {
                 res.redirect("/link-marksheet"); // Ganti "/link-marksheet" dengan URL yang sesuai untuk marksheet
               } else {
-                res.redirect("/ada-tapi-kosong");
+                res.redirect("/not-completed");
               }
             } else {
               // Handle the case when there are no results, e.g., show an error message or redirect to a different page
